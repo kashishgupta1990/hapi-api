@@ -13,7 +13,7 @@ server.connection({
 
 // Register Inert
 server.register(Inert, function (err) {
-    if(err){
+    if (err) {
         throw err;
     }
 });
@@ -26,7 +26,7 @@ function applyRouteConfig(dirPath) {
         var path = dirName + '/' + dta;
         if (fs.lstatSync(path).isDirectory()) {
             applyRouteConfig(path);
-        }else if(dta.match(/.route./)){
+        } else if (dta.match(/.route./)) {
             server.route(require(path));
         }
     });
@@ -36,7 +36,7 @@ applyRouteConfig(__dirname + '/api');
 // Add the route
 server.route({
     method: 'GET',
-    path:'/hello',
+    path: '/hello',
     handler: function (request, reply) {
 
         return reply('hello world');

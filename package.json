@@ -4,13 +4,17 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/Mohityagi/hapiapi.git"
   },
-  "author": "",
+  "engines" : {
+    "node" : "v5.2.0",
+    "npm":"3.3.12"
+  },
+  "author": "Anonymous",
   "license": "ISC",
   "homepage": "https://bitbucket.org/Mohityagi/hapiapi#readme",
   "dependencies": {
