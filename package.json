@@ -14,6 +14,8 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/Mohityagi/hapiapi#readme",
   "dependencies": {
-    "hapi": "^11.1.2"
+    "hapi": "^11.1.2",
+    "inert": "^3.2.0",
+    "joi": "^7.0.1"
   }
 }
