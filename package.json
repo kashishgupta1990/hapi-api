@@ -10,16 +10,22 @@
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/Mohityagi/hapiapi.git"
   },
-  "engines" : {
-    "node" : "v5.2.0",
-    "npm":"3.3.12"
+  "engines": {
+    "node": "v5.2.0",
+    "npm": "3.3.12"
   },
   "author": "Anonymous",
   "license": "ISC",
   "homepage": "https://bitbucket.org/Mohityagi/hapiapi#readme",
   "dependencies": {
+    "good": "^6.4.0",
+    "good-console": "^5.2.0",
+    "good-file": "^5.1.1",
+    "good-http": "^5.1.0",
     "hapi": "^11.1.2",
+    "hapi-swagger": "^2.2.4",
     "inert": "^3.2.0",
-    "joi": "^7.0.1"
+    "joi": "^7.0.1",
+    "vision": "^4.0.1"
   }
 }

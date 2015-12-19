@@ -3,6 +3,9 @@
 var Hapi = require('hapi');
 var fs = require('fs');
 var Inert = require('inert');
+var Vision = require('vision');
+var HapiSwagger = require('hapi-swagger');
+var Pack = require('./package');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
@@ -11,8 +14,48 @@ server.connection({
     port: 8000
 });
 
+var swaggerOptions = {
+    info: {
+        'title': 'API Documentation',
+        'version': Pack.version
+    }
+};
+
+var goodOptions = {
+    opsInterval: 1000,
+    reporters: [{
+        reporter: require('good-console'),
+        events: {
+            log: '*',
+            response: '*'
+        }
+    }]
+};
+
 // Register Inert
 server.register(Inert, function (err) {
+    if (err) {
+        throw err;
+    }
+});
+
+server.register([
+    Inert,
+    Vision,
+    {
+        register: HapiSwagger,
+        options: swaggerOptions
+    }], function (err) {
+    if (err) {
+        throw err;
+    }
+});
+
+server.register({
+    register: require('good'),
+    options: goodOptions
+}, function (err) {
+
     if (err) {
         throw err;
     }
