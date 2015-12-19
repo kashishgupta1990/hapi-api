@@ -6,12 +6,19 @@ var Inert = require('inert');
 var Vision = require('vision');
 var HapiSwagger = require('hapi-swagger');
 var Pack = require('./package');
+var appConfig = require('./config/Config.json');
+
+// Global variables
+const _ENV_NAME = process.env.NAME || 'development';
+const _APP_CONFIG = appConfig[_ENV_NAME];
+const _PORT = process.env.PORT || _APP_CONFIG.server.port;
+const _HOST = process.env.HOST || _APP_CONFIG.server.host;
 
 // Create a server with a host and port
-const server = new Hapi.Server();
+var server = new Hapi.Server();
 server.connection({
-    host: 'localhost',
-    port: 8000
+    host: _HOST,
+    port: _PORT
 });
 
 var swaggerOptions = {
