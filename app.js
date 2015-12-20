@@ -21,7 +21,10 @@ const _HOST = process.env.HOST || _APP_CONFIG.server.host;
 var server = new Hapi.Server();
 server.connection({
     host: _HOST,
-    port: _PORT
+    port: _PORT,
+    routes: {
+        cors: _APP_CONFIG.server.allowCrossDomain
+    }
 });
 
 // Plugins

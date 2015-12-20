@@ -3,61 +3,6 @@
     "server": {
       "host": "localhost",
       "port": "7002",
-      "publicDirectory":"public",
-      "allowCrossDomain": true
-    },
-    "database": {
-      "required": false,
-      "url": "mongodb://localhost:27017/boilerplate",
-      "poolSize": 2,
-      "tryToConnect": true
-    },
-    "cookie": {
-      "password": "secret",
-      "cookie": "boilerplate",
-      "redirectTo": "/login",
-      "isSecure": false
-    },
-    "userRoles": {
-      "rolesType": [
-        "user",
-        "admin"
-      ],
-      "roleFieldName": "roles"
-    }
-  },
-  "production": {
-    "server": {
-      "host": "localhost",
-      "port": "7002",
-      "publicDirectory":"public",
-      "allowCrossDomain": true
-    },
-    "database": {
-      "required": false,
-      "url": "mongodb://localhost:27017/boilerplate",
-      "poolSize": 2,
-      "tryToConnect": true
-    },
-    "cookie": {
-      "password": "secret",
-      "cookie": "boilerplate",
-      "redirectTo": "/login",
-      "isSecure": false
-    },
-    "userRoles": {
-      "rolesType": [
-        "user",
-        "admin"
-      ],
-      "roleFieldName": "roles"
-    }
-  },
-  "qa": {
-    "server": {
-      "host": "localhost",
-      "port": "7002",
-      "publicDirectory":"public",
       "allowCrossDomain": true
     },
     "database": {
