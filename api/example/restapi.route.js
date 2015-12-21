@@ -1,6 +1,10 @@
 "use strict";
 
 var Joi = require('joi');
+var path = require('path');
+var dao = {
+  sample:require(path.join(global._APP_DIR,'dao','modules','sample','sample'))
+};
 
 //Routs Lists
 module.exports = [
@@ -11,7 +15,12 @@ module.exports = [
             description: 'REST API in one go',
             notes: 'Yes, I am doing some fun..',
             tags: ['api'],
-            handler: function (request, reply) {
+            handler: (request, reply)=> {
+
+                dao.sample.saveSample((err,data)=>{
+                    console.log('Data > ',data);
+                });
+
                 reply({status: 'Testing my REST API'});
             }
         }

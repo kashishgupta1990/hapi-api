@@ -1,5 +1,6 @@
 'use strict';
 
+// Variables
 var Hapi = require('hapi');
 var fs = require('fs');
 var Inert = require('inert');
@@ -8,14 +9,22 @@ var async = require('async');
 var HapiSwagger = require('hapi-swagger');
 var Pack = require('./package');
 var appConfig = require('./config/Config.json');
+var mongoose = require('mongoose');
 var pluginList = [];
+var path = require('path');
 var serverTasks = [];
 
-// Global variables
+// Constant variables
 const _ENV_NAME = process.env.NAME || 'development';
 const _APP_CONFIG = appConfig[_ENV_NAME];
 const _PORT = process.env.PORT || _APP_CONFIG.server.port;
 const _HOST = process.env.HOST || _APP_CONFIG.server.host;
+
+// Global Variables
+global._APP_DIR = __dirname;
+global.Model = {
+    name: 'Kashish'
+};
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -27,7 +36,38 @@ server.connection({
     }
 });
 
-// Plugins
+// MongoDB Connection
+serverTasks.push((callback)=> {
+
+    // Connect Method
+    mongoose.connect(_APP_CONFIG.database.url, {
+        server: {
+            poolSize: _APP_CONFIG.database.poolSize
+        }
+    }, (dd, err)=> {
+        var schemaDirPath = path.join(global._APP_DIR, 'dao', 'schema');
+        if (err) {
+            console.error('Failed to connect with MongoDB. ' + err);
+            throw err;
+        } else {
+            fs.readdir(schemaDirPath, (error, fileList)=> {
+                fileList.forEach((fileName)=> {
+                    var modelName = fileName.replace(/.js/, '');
+                    var schemaObject = require(path.join(schemaDirPath, fileName));
+                    var schema = mongoose.Schema(schemaObject.schema);
+                    schemaObject.modelMethods.forEach((modelMethods)=>{
+                        schema.methods[modelMethods.name] = modelMethods.action;
+                    });
+                    global.Model[modelName] = mongoose.model(modelName, schema);
+                });
+
+                callback(err, 'MongoDB Successfully Connected');
+            });
+        }
+    });
+});
+
+// Plugin Registration Operations
 serverTasks.push((callback)=> {
     // Swagger Plugin
     pluginList.push((callback)=> {
@@ -125,7 +165,13 @@ serverTasks.push((callback)=> {
             }
         }
     });
-    callback(null,'Static Directory Configured');
+    callback(null, 'Static Directory Configured');
+});
+
+//Running Bootstrap Task
+serverTasks.push(function (callback) {
+    var bootstrap = require('./config/Bootstrap');
+    bootstrap(_ENV_NAME, callback);
 });
 
 // Start the server
