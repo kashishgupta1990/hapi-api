@@ -22,9 +22,7 @@ const _HOST = process.env.HOST || _APP_CONFIG.server.host;
 
 // Global Variables
 global._APP_DIR = __dirname;
-global.Model = {
-    name: 'Kashish'
-};
+global.Model = {};
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -114,6 +112,23 @@ serverTasks.push((callback)=> {
                 throw err;
             } else {
                 callback(err, 'Good Registered Successfully');
+            }
+        });
+    });
+
+    // Hapi Auth Cookie
+    pluginList.push(function (callback) {
+        server.register(require('hapi-auth-cookie'), (err)=> {
+            if(err){
+                throw err;
+            }else{
+                server.auth.strategy('session', 'cookie', {
+                    password: _APP_CONFIG.cookie.password,
+                    cookie: _APP_CONFIG.cookie.cookie,
+                    redirectTo: _APP_CONFIG.cookie.redirectTo,
+                    isSecure: _APP_CONFIG.cookie.isSecure
+                });
+                callback(err, 'Hapi Auth Cookie Enabled');
             }
         });
     });

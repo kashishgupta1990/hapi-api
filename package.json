@@ -24,6 +24,7 @@
     "good-file": "^5.1.1",
     "good-http": "^5.1.0",
     "hapi": "^11.1.2",
+    "hapi-auth-cookie": "^3.1.0",
     "hapi-swagger": "^2.2.4",
     "inert": "^3.2.0",
     "joi": "^7.0.1",

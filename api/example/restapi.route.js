@@ -15,6 +15,10 @@ module.exports = [
             description: 'REST API in one go',
             notes: 'Yes, I am doing some fun..',
             tags: ['api'],
+            auth: {
+                mode: 'try',
+                strategy: 'session'
+            },
             handler: (request, reply)=> {
 
                 dao.sample.saveSample((err,data)=>{

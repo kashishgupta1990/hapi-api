@@ -23,8 +23,6 @@ var sampleModel = {
 
 };
 
-console.log('Yoooo ',global.Model);
-
 // Schema
 module.exports = sampleModel;
 
