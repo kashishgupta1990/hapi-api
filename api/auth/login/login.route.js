@@ -1,9 +1,9 @@
 "use strict";
 
 var Joi = require('joi');
-/*var service = {
+var service = {
     login:require('./login.service')
-};*/
+};
 
 //Routs Lists
 module.exports = [
@@ -23,9 +23,8 @@ module.exports = [
             handler: function (request, reply) {
 
                 //To Authenticate User
-                /*request.auth.session.set({roles: ['user'], password: 'pioneer'});
-                globalEvent.emit("someEvent", {name: 'kashish'});
-                service.login.login();*/
+                request.auth.session.set({roles: ['user'], password: 'pioneer'});
+                service.login.login();
                 reply('successfully login');
 
             }

@@ -14,7 +14,7 @@ module.exports = [
             handler: function (request, reply) {
 
                 //To Authenticate User
-                /*request.auth.session.clear();*/
+                request.auth.session.clear();
                 reply('logout successfully');
 
             }
