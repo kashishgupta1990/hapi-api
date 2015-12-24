@@ -15,6 +15,7 @@ module.exports = [
             description: 'Get user information',
             notes: 'Get user information',
             tags: ['api'],
+            plugins :{'hapi-role-manager':['user','admin']},
             validate:{
               params:{
                   firstName:Joi.string()

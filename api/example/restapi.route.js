@@ -19,6 +19,7 @@ module.exports = [
                 mode: 'try',
                 strategy: 'session'
             },
+            plugins :{'hapi-role-manager':['user']},
             handler: (request, reply)=> {
 
                 dao.sample.saveSample((err,data)=>{

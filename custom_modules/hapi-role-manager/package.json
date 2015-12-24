@@ -1,0 +1,13 @@
+{
+  "name": "hapi-role-manager",
+  "description": "Hapi role management plugin",
+  "version": "0.1.0",
+  "main": "index",
+  "dependencies": {
+    "boom": "2.x.x",
+    "hoek": "2.x.x"
+  },
+  "peerDependencies": {
+    "hapi": ">=8.x.x"
+  }
+}

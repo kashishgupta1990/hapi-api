@@ -14,11 +14,11 @@ module.exports = [
             description: 'Login Here',
             notes: 'Do login here',
             tags: ['api'],
-
             plugins: {
                 'hapi-auth-cookie': {
                     redirectTo: false
-                }
+                },
+                'hapi-role-manager':['user']
             },
             handler: function (request, reply) {
 

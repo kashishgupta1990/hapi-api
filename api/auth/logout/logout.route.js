@@ -11,6 +11,7 @@ module.exports = [
             description: 'Login Here',
             notes: 'Do login here',
             tags: ['api'],
+            plugins :{'hapi-role-manager':['user','admin']},
             handler: function (request, reply) {
 
                 //To Authenticate User

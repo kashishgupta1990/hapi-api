@@ -12,6 +12,7 @@ var appConfig = require('./config/Config.json');
 var mongoose = require('mongoose');
 var pluginList = [];
 var path = require('path');
+var hapiRole = require('./custom_modules/hapi-role-manager');
 var serverTasks = [];
 
 // Constant variables
@@ -130,6 +131,24 @@ serverTasks.push((callback)=> {
                 });
                 callback(err, 'Hapi Auth Cookie Enabled');
             }
+        });
+    });
+
+    // Hapi Role Manager
+    pluginList.push(function (callback) {
+        server.register({
+            register: hapiRole,
+            options: {
+                rolesType: _APP_CONFIG.userRoles.rolesType,
+                cookieName: _APP_CONFIG.cookie.cookie,
+                roleFieldName: _APP_CONFIG.userRoles.roleFieldName
+            }
+        }, function (err) {
+            if (err) {
+                console.error(err);
+                throw err;
+            }
+            callback(err, 'Hapi Roles Plugin loaded');
         });
     });
 
