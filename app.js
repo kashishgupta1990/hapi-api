@@ -1,5 +1,6 @@
 'use strict';
 
+
 // Variables
 var Hapi = require('hapi');
 var fs = require('fs');
