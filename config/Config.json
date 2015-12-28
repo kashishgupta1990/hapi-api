@@ -24,5 +24,31 @@
       ],
       "roleFieldName": "roles"
     }
+  },
+  "beta": {
+    "server": {
+      "host": "localhost",
+      "port": "7002",
+      "allowCrossDomain": true
+    },
+    "database": {
+      "required": false,
+      "url": "mongodb://root:toor@ds037155.mongolab.com:37155/feedback",
+      "poolSize": 2,
+      "tryToConnect": true
+    },
+    "cookie": {
+      "password": "secret",
+      "cookie": "boilerplate",
+      "redirectTo": "/login",
+      "isSecure": false
+    },
+    "userRoles": {
+      "rolesType": [
+        "user",
+        "admin"
+      ],
+      "roleFieldName": "roles"
+    }
   }
 }
