@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Variables
 var Hapi = require('hapi');
 var fs = require('fs');
@@ -29,8 +28,8 @@ global.Model = {};
 // Create a server with a host and port
 var server = new Hapi.Server();
 server.connection({
-    host: _HOST,
-    port: _PORT,
+    host: process.env.HOST || _HOST,
+    port: process.env.PORT || _PORT,
     routes: {
         cors: _APP_CONFIG.server.allowCrossDomain
     }
