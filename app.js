@@ -27,18 +27,12 @@ global.Model = {};
 
 // Create a server with a host and port
 var server = new Hapi.Server();
-
-serverTasks.push((callback)=> {
-    setTimeout(()=> {
-        server.connection({
-            host: process.env.HOST || _HOST,
-            port: process.env.PORT || _PORT,
-            routes: {
-                cors: _APP_CONFIG.server.allowCrossDomain
-            }
-        });
-        callback(null, 'Init servier object');
-    }, 500);
+server.connection({
+    host: process.env.HOST || _HOST,
+    port: process.env.PORT || _PORT,
+    routes: {
+        cors: _APP_CONFIG.server.allowCrossDomain
+    }
 });
 
 // MongoDB Connection
@@ -60,7 +54,7 @@ serverTasks.push((callback)=> {
                     var modelName = fileName.replace(/.js/, '');
                     var schemaObject = require(path.join(schemaDirPath, fileName));
                     var schema = mongoose.Schema(schemaObject.schema);
-                    schemaObject.modelMethods.forEach((modelMethods)=> {
+                    schemaObject.modelMethods.forEach((modelMethods)=>{
                         schema.methods[modelMethods.name] = modelMethods.action;
                     });
                     global.Model[modelName] = mongoose.model(modelName, schema);
@@ -126,9 +120,9 @@ serverTasks.push((callback)=> {
     // Hapi Auth Cookie
     pluginList.push(function (callback) {
         server.register(require('hapi-auth-cookie'), (err)=> {
-            if (err) {
+            if(err){
                 throw err;
-            } else {
+            }else{
                 server.auth.strategy('session', 'cookie', {
                     password: _APP_CONFIG.cookie.password,
                     cookie: _APP_CONFIG.cookie.cookie,
@@ -220,15 +214,13 @@ async.series(serverTasks, (err, result)=> {
         console.error('Before Server Start ', err);
         throw err;
     } else {
-        setTimeout(()=> {
-            server.start((err) => {
-                if (err) {
-                    console.error(err);
-                    throw err;
-                } else {
-                    console.log('Server running at:', server.info.uri);
-                }
-            });
-        }, 500);
+        server.start((err) => {
+            if (err) {
+                console.error(err);
+                throw err;
+            } else {
+                console.log('Server running at:', server.info.uri);
+            }
+        });
     }
 });
