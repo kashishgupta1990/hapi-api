@@ -27,12 +27,16 @@ global.Model = {};
 
 // Create a server with a host and port
 var server = new Hapi.Server();
-server.connection({
-    host: process.env.HOST || _HOST,
-    port: process.env.PORT || _PORT,
-    routes: {
-        cors: _APP_CONFIG.server.allowCrossDomain
-    }
+
+serverTasks.push((callback)=>{
+    server.connection({
+        host: process.env.HOST || _HOST,
+        port: process.env.PORT || _PORT,
+        routes: {
+            cors: _APP_CONFIG.server.allowCrossDomain
+        }
+    });
+    callback(null,'Init servier object');
 });
 
 // MongoDB Connection
