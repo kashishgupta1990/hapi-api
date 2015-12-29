@@ -19,7 +19,6 @@ var serverTasks = [];
 const _ENV_NAME = process.env.NAME || 'development';
 const _APP_CONFIG = appConfig[_ENV_NAME];
 const _PORT = process.env.PORT || _APP_CONFIG.server.port;
-const _HOST = process.env.HOST || _APP_CONFIG.server.host;
 
 // Global Variables
 global._APP_DIR = __dirname;
@@ -28,7 +27,6 @@ global.Model = {};
 // Create a server with a host and port
 var server = new Hapi.Server();
 server.connection({
-    host: process.env.HOST || _HOST,
     port: process.env.PORT || _PORT,
     routes: {
         cors: _APP_CONFIG.server.allowCrossDomain
