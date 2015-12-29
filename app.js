@@ -29,14 +29,16 @@ global.Model = {};
 var server = new Hapi.Server();
 
 serverTasks.push((callback)=>{
-    server.connection({
-        host: process.env.HOST || _HOST,
-        port: process.env.PORT || _PORT,
-        routes: {
-            cors: _APP_CONFIG.server.allowCrossDomain
-        }
-    });
-    callback(null,'Init servier object');
+    setTimeout(()=>{
+        server.connection({
+            host: process.env.HOST || _HOST,
+            port: process.env.PORT || _PORT,
+            routes: {
+                cors: _APP_CONFIG.server.allowCrossDomain
+            }
+        });
+        callback(null,'Init servier object');
+    },500);
 });
 
 // MongoDB Connection
