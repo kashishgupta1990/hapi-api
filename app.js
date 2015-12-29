@@ -252,7 +252,7 @@ serverTasks.push(function (callback) {
 // Start the server
 async.series(serverTasks, (err, result)=> {
     if (err) {
-        console.error('Before Server Start ', err);
+        console.error('Error on Server Start ', err);
         throw err;
     } else {
         server.start((err) => {
