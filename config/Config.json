@@ -13,7 +13,7 @@
     },
     "cookie": {
       "password": "secret",
-      "cookie": "boilerplate",
+      "cookie": "feedback-dev",
       "redirectTo": "/login",
       "isSecure": false
     },
@@ -23,6 +23,13 @@
         "admin"
       ],
       "roleFieldName": "roles"
+    },
+    "mail":{
+      "gmail":{
+        "service":"Gmail",
+        "username":"feedback.platform.dev",
+        "password":"swiftitgroup"
+      }
     }
   },
   "beta": {
@@ -39,7 +46,7 @@
     },
     "cookie": {
       "password": "secret",
-      "cookie": "boilerplate",
+      "cookie": "feedback-beta",
       "redirectTo": "/login",
       "isSecure": false
     },
@@ -49,6 +56,13 @@
         "admin"
       ],
       "roleFieldName": "roles"
+    },
+    "mail":{
+      "gmail":{
+        "service":"Gmail",
+        "username":"feedback.platform.beta",
+        "password":"swiftitgroup"
+      }
     }
   }
 }

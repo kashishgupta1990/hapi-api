@@ -24,6 +24,7 @@ module.exports = function (environment, callback) {
     //Sample Task
     function Test(callback) {
         //console.log('Test Task Runner');
+        GlobalEvent.emit('defaultEmailNotification');
         callback(null, 'Test Task Runner')
     }
 

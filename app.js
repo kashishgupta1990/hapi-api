@@ -12,6 +12,8 @@ var appConfig = require('./config/Config.json');
 var mongoose = require('mongoose');
 var pluginList = [];
 var path = require('path');
+var EventEmitter = require("events").EventEmitter;
+var mailer = require('./custom_modules/mailer');
 var hapiRole = require('./custom_modules/hapi-role-manager');
 var serverTasks = [];
 
@@ -23,11 +25,13 @@ const _PORT = process.env.PORT || _APP_CONFIG.server.port;
 // Global Variables
 global._APP_DIR = __dirname;
 global.Model = {};
+global.GlobalEvent = {};
+global.Mail = {};
 
 // Create a server with a host and port
 var server = new Hapi.Server();
 server.connection({
-    port: process.env.PORT || _PORT,
+    port: _PORT,
     routes: {
         cors: _APP_CONFIG.server.allowCrossDomain
     }
@@ -52,7 +56,7 @@ serverTasks.push((callback)=> {
                     var modelName = fileName.replace(/.js/, '');
                     var schemaObject = require(path.join(schemaDirPath, fileName));
                     var schema = mongoose.Schema(schemaObject.schema);
-                    schemaObject.modelMethods.forEach((modelMethods)=>{
+                    schemaObject.modelMethods.forEach((modelMethods)=> {
                         schema.methods[modelMethods.name] = modelMethods.action;
                     });
                     global.Model[modelName] = mongoose.model(modelName, schema);
@@ -118,9 +122,9 @@ serverTasks.push((callback)=> {
     // Hapi Auth Cookie
     pluginList.push(function (callback) {
         server.register(require('hapi-auth-cookie'), (err)=> {
-            if(err){
+            if (err) {
                 throw err;
-            }else{
+            } else {
                 server.auth.strategy('session', 'cookie', {
                     password: _APP_CONFIG.cookie.password,
                     cookie: _APP_CONFIG.cookie.cookie,
@@ -198,6 +202,45 @@ serverTasks.push((callback)=> {
         }
     });
     callback(null, 'Static Directory Configured');
+});
+
+// Global Module Event Register
+serverTasks.push((callback)=>{
+    var _globalEvent = new EventEmitter();
+
+    function createEmitterEvent(eventList) {
+        eventList.forEach(function (event) {
+            _globalEvent.on(event.eventName, event.handler);
+        });
+    }
+
+    function applyEmitterBind(dirPath) {
+        var dirName = dirPath;
+        var data = fs.readdirSync(dirName);
+        data.forEach(function (dta) {
+            var path = dirName + '/' + dta;
+            if (fs.lstatSync(path).isDirectory()) {
+                applyEmitterBind(path);
+            } else {
+                createEmitterEvent(require(path));
+            }
+        });
+    }
+
+    applyEmitterBind(_APP_DIR + '/globalEvent');
+
+    global.GlobalEvent = _globalEvent;
+
+    callback(null, 'Global Event Binding Complete');
+});
+
+// NodeMailer Register
+serverTasks.push((callback)=>{
+    // Do NodeMailer Registration here
+    mailer(_APP_CONFIG.mail,(err,mail)=>{
+        global.Mail = mail;
+        callback(err,'Mailer Successfully register');
+    });
 });
 
 //Running Bootstrap Task
