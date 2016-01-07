@@ -2,9 +2,9 @@
 
 var userModel = {
     schema: {
-        firstName: String,
-        lastName: String,
-        age: Number
+        email: String,
+        password: String,
+        roles: [String]
     },
     modelMethods: []
 };

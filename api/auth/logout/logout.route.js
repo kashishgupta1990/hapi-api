@@ -16,7 +16,11 @@ module.exports = [
 
                 //To Authenticate User
                 request.auth.session.clear();
-                reply('logout successfully');
+                reply({
+                    status:true,
+                    message:'logout successfully',
+                    data:{}
+                });
 
             }
         }

@@ -1,16 +1,21 @@
 'use strict';
 
 module.exports = {
-    saveUser: (data, callback)=> {
-
-        var uData = new Model.User({
-            firstName:data.firstName,
-            lastName:data.lastName,
-            age:data.age
-        });
+    signUpUser: (data, callback)=> {
+        /*
+        * email:yoman@gmail.com,
+        * password:*******,
+        * roles:['user']
+        * */
+        var uData = new Model.User(data);
         uData.save(callback);
     },
-    getUser: (data, callback)=> {
-        Model.User.find({firstName:data.firstName},callback);
+    validateUser: (data, callback)=> {
+        /*
+        * email:yoman@gmail.com,
+        * password:********,
+        * roles:['user']
+        * */
+        Model.User.findOne(data,callback);
     }
 };
