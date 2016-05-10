@@ -1,5 +1,5 @@
 **Table of Contents**
-- [Hapi Mongoose Boilerplate](#Hapi-Mongoose-Boilerplate)
+- [Hapi Api Boilerplate](#Hapi-Api-Boilerplate)
   - [Installation](#installation)
     - [Download (git)](#download-git)
     - [NPM Install (npm)](#npm-install)
@@ -26,14 +26,14 @@ This Boilerplate having some of common plugin which can be used as per required.
 
 This boilerplate will give you a quick start to your Node Application Server with HapiJs.
 
-We are Hapi to release this exciting version to build your Node app on Hapi-Mongoose-Boilerplate.
+We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate.
 
 ##Installation##
 This library is available for **Node** only. See the installation steps below:
 
 ###Download(GIT)###
 ```bash
-$ git clone git@github.com:kashishgupta1990/HapiMongooseBoilerplate.git
+$ git clone git@github.com:kashishgupta1990/hapi-api.git
 ```
 ###NPM Install(npm)###
 ```bash

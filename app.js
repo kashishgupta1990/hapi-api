@@ -75,7 +75,11 @@ serverTasks.push((callback)=> {
         var swaggerOptions = {
             info: {
                 'title': 'API Documentation',
-                'version': Pack.version
+                'version': Pack.version,
+                'contact':{
+                    'name':'Kashish Gupta',
+                    'email':'kashishgupta1990@yahoo.com'
+                }
             }
         };
         server.register([
@@ -120,24 +124,28 @@ serverTasks.push((callback)=> {
     });
 
     // Hapi Auth Cookie
-    pluginList.push(function (callback) {
+    /*pluginList.push(function (callback) {
         server.register(require('hapi-auth-cookie'), (err)=> {
             if (err) {
                 throw err;
             } else {
-                server.auth.strategy('session', 'cookie', {
+                server.auth.strategy('session', 'cookie', true, {
                     password: _APP_CONFIG.cookie.password,
                     cookie: _APP_CONFIG.cookie.cookie,
                     redirectTo: _APP_CONFIG.cookie.redirectTo,
-                    isSecure: _APP_CONFIG.cookie.isSecure
+                    isSecure: _APP_CONFIG.cookie.isSecure,
+                    validateFunc: function (request, session, callback) {
+                        console.log(arguments);
+                        return callback(null, true);
+                    }
                 });
                 callback(err, 'Hapi Auth Cookie Enabled');
             }
         });
-    });
+    });*/
 
     // Hapi Role Manager
-    pluginList.push(function (callback) {
+    /*pluginList.push(function (callback) {
         server.register({
             register: hapiRole,
             options: {
@@ -152,7 +160,7 @@ serverTasks.push((callback)=> {
             }
             callback(err, 'Hapi Roles Plugin loaded');
         });
-    });
+    });*/
 
     // Plugin Applied
     async.series(pluginList, (err, result)=> {

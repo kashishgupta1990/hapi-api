@@ -7,29 +7,30 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/Mohityagi/hapiapi.git"
+    "url": "https://github.com/kashishgupta1990/hapi-api.git"
   },
   "engines": {
     "node": "v5.2.0",
     "npm": "3.3.12"
   },
-  "author": "Anonymous",
+  "author": "Kashish Gupta",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/Mohityagi/hapiapi#readme",
+  "homepage": "https://github.com/kashishgupta1990/hapi-api",
   "dependencies": {
-    "async": "^1.5.0",
+    "async": "^1.5.2",
+    "boom": "^3.1.2",
     "good": "^6.4.0",
     "good-console": "^5.2.0",
     "good-file": "^5.1.1",
     "good-http": "^5.1.0",
     "hapi": "^11.1.2",
-    "hapi-auth-cookie": "^3.1.0",
-    "hapi-swagger": "^2.2.4",
+    "hapi-auth-cookie": "^6.1.1",
+    "hapi-swagger": "^5.1.0",
     "inert": "^3.2.0",
-    "joi": "^7.0.1",
-    "mongoose": "^4.3.3",
+    "joi": "^8.0.5",
+    "mongoose": "^4.4.14",
     "nodemailer": "^0.7.1",
     "path": "^0.12.7",
-    "vision": "^4.0.1"
+    "vision": "^4.1.0"
   }
 }

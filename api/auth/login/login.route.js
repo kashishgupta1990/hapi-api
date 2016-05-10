@@ -25,7 +25,21 @@ module.exports = [
                 'hapi-auth-cookie': {
                     redirectTo: false
                 },
-                'hapi-role-manager':['user']
+                'hapi-role-manager':['user'],
+                'hapi-swagger': {
+                    responses: {
+                        '200': {
+                            'description': 'Success',
+                            'schema': Joi.object({
+                                status:true,
+                                message:'Successfully Login'
+                            }).label('Result')
+                        },
+                        '400': {'description': 'Bad Request'},
+                        '404': {'description': 'Bad Request'}
+                    },
+                    payloadType: 'json'
+                }
             },
             handler: function (request, reply) {
                 var dbPayload = {
@@ -38,7 +52,7 @@ module.exports = [
                     }else{
                         if(data){
                             //To Authenticate User
-                            request.auth.session.set({
+                            request.cookieAuth.set({
                                 roles: data.roles,
                                 email:data.email
                             });

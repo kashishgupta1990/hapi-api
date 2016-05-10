@@ -13,7 +13,7 @@
     },
     "cookie": {
       "password": "secret",
-      "cookie": "feedback-dev",
+      "cookie": "hapi-api-dev",
       "redirectTo": "/login",
       "isSecure": false
     },
@@ -46,7 +46,7 @@
     },
     "cookie": {
       "password": "secret",
-      "cookie": "feedback-beta",
+      "cookie": "hapi-api-beta",
       "redirectTo": "/login",
       "isSecure": false
     },
