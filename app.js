@@ -148,12 +148,12 @@ serverTasks.push((callback)=> {
     });
 
     // Hapi Auth Cookie
-    /*pluginList.push(function (callback) {
+    pluginList.push(function (callback) {
         server.register(require('hapi-auth-cookie'), (err)=> {
             if (err) {
                 throw err;
             } else {
-                server.auth.strategy('session', 'cookie', true, {
+                server.auth.strategy('session', 'cookie', {
                     password: _APP_CONFIG.cookie.password,
                     cookie: _APP_CONFIG.cookie.cookie,
                     redirectTo: _APP_CONFIG.cookie.redirectTo,
@@ -166,7 +166,7 @@ serverTasks.push((callback)=> {
                 callback(err, 'Hapi Auth Cookie Enabled');
             }
         });
-    });*/
+    });
 
     // Hapi Role Manager
     /*pluginList.push(function (callback) {

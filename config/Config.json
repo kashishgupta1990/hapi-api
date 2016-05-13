@@ -2,7 +2,7 @@
   "development": {
     "server": {
       "host": "localhost",
-      "port": "7002",
+      "port": "9999",
       "allowCrossDomain": true
     },
     "database": {
@@ -12,7 +12,7 @@
       "tryToConnect": true
     },
     "cookie": {
-      "password": "secret",
+      "password": "secretsecretsecretsecretsecretsecretsecretsecret",
       "cookie": "hapi-api-dev",
       "redirectTo": "/login",
       "isSecure": false
@@ -35,7 +35,7 @@
   "beta": {
     "server": {
       "host": "localhost",
-      "port": "7002",
+      "port": "9999",
       "allowCrossDomain": true
     },
     "database": {
@@ -45,7 +45,7 @@
       "tryToConnect": true
     },
     "cookie": {
-      "password": "secret",
+      "password": "secretsecretsecretsecretsecretsecretsecretsecret",
       "cookie": "hapi-api-beta",
       "redirectTo": "/login",
       "isSecure": false

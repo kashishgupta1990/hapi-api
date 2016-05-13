@@ -15,6 +15,7 @@ module.exports = [
             description: 'REST API in one go',
             notes: 'Yes, I am doing some fun..',
             tags: ['api'],
+            auth: { mode: 'try',strategy:'session' },
             plugins :{'hapi-role-manager':['user']},
             handler: (request, reply)=> {
 

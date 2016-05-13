@@ -22,9 +22,6 @@ module.exports = [
                 }
             },
             plugins: {
-                'hapi-auth-cookie': {
-                    redirectTo: false
-                },
                 'hapi-role-manager':['user'],
                 'hapi-swagger': {
                     responses: {
@@ -53,14 +50,12 @@ module.exports = [
                         if(data){
                             //To Authenticate User
                             request.cookieAuth.set({
-                                roles: data.roles,
                                 email:data.email
                             });
                             reply({
                                 status:true,
                                 message:'successfully login',
                                 data:{
-                                    roles: data.roles,
                                     email:data.email
                                 }
                             });
