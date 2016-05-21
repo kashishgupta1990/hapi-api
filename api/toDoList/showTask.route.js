@@ -9,35 +9,29 @@ var dao = {
 //Routs Lists
 module.exports = [
     {
-        path: '/api/v1/todolist/add',
-        method: ['POST'],
+        path: '/api/v1/todolist',
+        method: ['GET'],
         config: {
-            description: 'Add new ToDo Task',
-            notes: 'Add new ToDo Task',
+            description: 'Show ToDo Task',
+            notes: 'Show ToDo Task',
             tags: ['api'],
-            validate: {
-                payload: {
-                    description: Joi.string()
-                }
-            },
             auth: {mode: 'try', strategy: 'session'},
             plugins: {'hapi-role-manager': ['user']},
             handler: (request, reply)=> {
                 var requiredData = {
-                    email: request.auth.credentials.email,
-                    description: request.payload.description
+                    email: request.auth.credentials.email
                 };
-                dao.toDoList.add(requiredData, (err, data)=> {
+                dao.toDoList.showAllTasks(requiredData, (err, data)=> {
                     if (err) {
                         reply({
                             status: false,
-                            message: 'Failed to add your task.',
+                            message: 'Failed to show all task.',
                             data: err
                         });
                     } else {
                         reply({
                             status: true,
-                            message: 'Task successfully saved.',
+                            message: 'Task successfully fetched.',
                             data: data
                         });
                     }

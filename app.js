@@ -159,7 +159,6 @@ serverTasks.push((callback)=> {
                     redirectTo: _APP_CONFIG.cookie.redirectTo,
                     isSecure: _APP_CONFIG.cookie.isSecure,
                     validateFunc: function (request, session, callback) {
-                        console.log(arguments);
                         return callback(null, true);
                     }
                 });
