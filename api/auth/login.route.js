@@ -40,14 +40,6 @@ module.exports = [
             },
             handler: function (request, reply) {
 
-                // TODO Check this
-                if (request.auth.isAuthenticated) {
-                    return reply({
-                        status:true,
-                        message:'User already logIn.'
-                    });
-                }
-
                 var dbPayload = {
                     email: request.payload.email,
                     password: request.payload.password
