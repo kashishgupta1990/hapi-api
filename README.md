@@ -1,10 +1,11 @@
-**Table of Contents**
+# Table of Contents #
+
 - [Hapi Api Boilerplate](#Hapi-Api-Boilerplate)
   - [Installation](#installation)
     - [Download (git)](#download-git)
     - [NPM Install (npm)](#npm-install)
   - [Boilerplate Structure](#boilerplate-structure)
-  - [Setting up configration](#setting-up-configration)
+  - [Setting up configuration](#setting-up-configration)
     - [Bootstrap.js](#bootstrap.js)
     - [Config.json](#Config.json)
     - [plug.json](#plug.json)
@@ -21,28 +22,30 @@
 # Hapi Api Boilerplate #
 
 This Boilerplate is ready to use pack having very exciting feature of HapiJs and MongooseJs. 
-
-This Boilerplate having some of common plugin which can be used as per required.
-
+This Boilerplate having some of common plugin which can be used as per required. 
 This Boilerplate will give you a quick start to your Node Application Server with HapiJs.
-
 We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
-
 It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's 
 
-##Installation##
+## Prerequisite ##
+
+- NodeJs v4.x and above required.
+- MongoDB Server 3.2.x and above required.
+
+## Installation ##
+
 This library is available for **Node v4** and above. See the installation steps below:
 
-###Download(GIT)###
+### Download(GIT) ###
 ```bash
 $ git clone git@github.com:kashishgupta1990/hapi-api.git
 ```
-###NPM Install(npm)###
+### NPM Install(npm) ###
 ```bash
 $ npm install
 $ node app.js (By Default you can see server running on Address http://localhost:9999)
 ```
-##Boilerplate Structure##
+## Boilerplate Structure ##
 
   - api
     - CreateFolder(auth)
@@ -80,6 +83,7 @@ $ node app.js (By Default you can see server running on Address http://localhost
   
 ##Setting up configuration (Folder: config)##
 ###Bootstrap.js###
+
 ``Bootstrap.js`` is a task runner file which executes on start of application according to appropriate environment settings.
 See below given snippet for quick start to create task named ``Test`` and run on ``development`` environment
 ```javascript
@@ -99,9 +103,12 @@ module.exports = function (environment, callback) {
 };
 ```
 
-###Config.json###
-``Config.json`` contains all the application level configuration variables. Use config.json file by ``_config`` as global variable.
+### Config.json ###
+
+`Config.json` contains all the application level configuration variables. Use config.json file by `_config` as global variable.
+
 ```javascript
+
   "development": {
     "server": {
       "host": "localhost",
@@ -128,16 +135,19 @@ module.exports = function (environment, callback) {
       }
     }
   }
+  
 ```
 
-## DAO (Data Access Object) Schema and its Module##
+## DAO (Data Access Object) Schema and its Module ##
 
-### schema ###
+### Schema ###
+
 ``dao/schema`` is a home for all mongoose domain. You just have to create file like ``User.js``, define mongoose schema into file, that's all.
 You can access your mongoose modal form any where in boilerplate (routes, bootstarp files) by ``Modal`` object.
 Examples are given below:
 
 #### Define Sample Domain####
+
 ``Define Sample Domain`` in /dao/schema/Sample.js
 ```javascript
 "use strict";
@@ -171,6 +181,7 @@ var sample = {
 module.exports = sample;
 ```
 #### Sample Modules####
+
 Use ``Define Sample Module`` in /dao/modules/sample.js
 ```javascript
 'use strict';
@@ -198,6 +209,7 @@ module.exports = {
 ##How to define Routes##
 
 ### API Route###
+
 ``api`` is a folder where we can define routes. Create folder in side `api` folder or you can directly create file with any name we want. File should follow the `*.route.js` notation. Here `*` will be replaced by any `filename`.
 ```javascript
 "use strict";
@@ -235,5 +247,6 @@ module.exports = [
 ];
 ```
 
-##Lets Build Together##
+## Lets Build Together ##
+
 Just open an issue in case found any bug(There is always a scope of improvement). We are always open for suggestion / issue / add new feature request. Fork and start creating pull request. :-)
