@@ -26,7 +26,8 @@ This Boilerplate having some of common plugin which can be used as per required.
 This Boilerplate will give you a quick start to your Node Application Server with HapiJs.
 We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
 It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's
-Try Now default [To-Do-List Application Api](http://todoapi.kashishgupta.in/documentation)
+
+#### Try Now [To-Do-List Application Api](http://todoapi.kashishgupta.in/documentation) ####
 
 ## Cloud Platform Support ##
 
