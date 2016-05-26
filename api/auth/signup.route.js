@@ -24,15 +24,13 @@ module.exports = [
             plugins: {
                 'hapi-auth-cookie': {
                     redirectTo: false
-                },
-                'hapi-role-manager': ['user']
+                }
             },
             handler: function (request, reply) {
                 var dbPayload = {
                     email: request.payload.email,
                     password: request.payload.password
                 };
-                dbPayload.roles = ['user'];
                 dao.user.signUpUser(dbPayload,(err,data)=>{
                     if(err){
                         reply(err);

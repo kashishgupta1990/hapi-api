@@ -17,18 +17,11 @@
       "redirectTo": "/login",
       "isSecure": false
     },
-    "userRoles": {
-      "rolesType": [
-        "user",
-        "admin"
-      ],
-      "roleFieldName": "roles"
-    },
     "mail":{
       "gmail":{
         "service":"Gmail",
-        "username":"feedback.platform.dev",
-        "password":"swiftitgroup"
+        "username":"guptkashish",
+        "password":"your-password"
       }
     }
   },
@@ -40,7 +33,7 @@
     },
     "database": {
       "required": false,
-      "url": "mongodb://root:toor@ds037155.mongolab.com:37155/feedback",
+      "url": "mongodb://username:password@abc.mongolab.com:37155/boilerplate",
       "poolSize": 2,
       "tryToConnect": true
     },
@@ -50,18 +43,11 @@
       "redirectTo": "/login",
       "isSecure": false
     },
-    "userRoles": {
-      "rolesType": [
-        "user",
-        "admin"
-      ],
-      "roleFieldName": "roles"
-    },
     "mail":{
       "gmail":{
         "service":"Gmail",
-        "username":"feedback.platform.beta",
-        "password":"swiftitgroup"
+        "username":"guptkashish",
+        "password":"your-password"
       }
     }
   }

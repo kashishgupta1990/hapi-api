@@ -2,9 +2,13 @@ module.exports = [
     {
         eventName: 'defaultEmailNotification',
         handler: function (data) {
-            console.log('Send default Email');
-            var mailOptions = {
-                from: "Feedback Dev <feedback.platform.dev@gmail.com>", // sender address
+            console.log('GlobalEvent: Dummy Send default Email.');
+
+            /*
+            * Un-comment and update your emailId from Config.json file.
+            * */
+            /*var mailOptions = {
+                from: "Feedback Dev <guptkashish@gmail.com>", // sender address
                 to: "guptkashish@gmail.com", // list of receivers
                 subject: "Hello ✔", // Subject line
                 text: "Hello world ✔", // plaintext body
@@ -16,7 +20,7 @@ module.exports = [
                 } else {
                     console.log("Message sent: " + response.message);
                 }
-            })
+            })*/
         }
     }
 ];

@@ -1,6 +1,6 @@
 "use strict";
 
-var sampleModel = {
+var sample = {
     schema: {
         id: Number,
         sampleData: String,
@@ -24,7 +24,7 @@ var sampleModel = {
 };
 
 // Schema
-module.exports = sampleModel;
+module.exports = sample;
 
 
 

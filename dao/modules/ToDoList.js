@@ -27,22 +27,28 @@ var ToDoListModule = {
         }, callback);
     },
     updateTaskStatus: (data, callback)=> {
+        let updateQuery = {
+            $set: {}
+        };
+        if (data.completed) {
+            updateQuery.$set["toDoList.$.completed"] = data.completed;
+        }
+        if (data.description) {
+            updateQuery.$set["toDoList.$.description"] = data.description;
+        }
+
         Model.User.update({
             email: data.email,
             'toDoList._id': new ObjectId(data.taskId)
-        }, {
-            $set: {
-                "toDoList.$.completed": data.taskStatus
-            }
-        }, callback);
+        }, updateQuery, callback);
     },
     showAllTasks: (data, callback)=> {
         Model.User.findOne({
-                email: data.email
-            }, {
-                toDoList: true,
-                _id: false
-            }, callback);
+            email: data.email
+        }, {
+            toDoList: true,
+            _id: false
+        }, callback);
     }
 };
 

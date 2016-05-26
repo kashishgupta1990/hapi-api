@@ -21,7 +21,6 @@ module.exports = [
                 }
             },
             auth: {mode: 'try', strategy: 'session'},
-            plugins: {'hapi-role-manager': ['user']},
             handler: (request, reply)=> {
                 var requiredData = {
                     email: request.auth.credentials.email,

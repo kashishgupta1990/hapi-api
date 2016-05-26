@@ -22,7 +22,6 @@ module.exports = [
                 }
             },
             plugins: {
-                'hapi-role-manager':['user'],
                 'hapi-swagger': {
                     responses: {
                         '200': {
@@ -32,8 +31,7 @@ module.exports = [
                                 message:'Successfully Login'
                             }).label('Result')
                         },
-                        '400': {'description': 'Bad Request'},
-                        '404': {'description': 'Bad Request'}
+                        '400': {'description': 'Bad Request'}
                     },
                     payloadType: 'json'
                 }

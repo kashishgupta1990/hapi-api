@@ -9,7 +9,7 @@ var dao = {
 //Routs Lists
 module.exports = [
     {
-        path: '/api/v1/todolist/{taskId}/{taskStatus}',
+        path: '/api/v1/todolist/{taskId}',
         method: ['PUT'],
         config: {
             description: 'Update ToDo Task',
@@ -17,17 +17,20 @@ module.exports = [
             tags: ['api'],
             validate: {
                 params: {
-                    taskId: Joi.string().required(),
-                    taskStatus: Joi.boolean().required()
+                    taskId: Joi.string().required()
+                },
+                payload: {
+                    description: Joi.string(),
+                    completed: Joi.boolean()
                 }
             },
             auth: {mode: 'try', strategy: 'session'},
-            plugins: {'hapi-role-manager': ['user']},
             handler: (request, reply)=> {
                 var requiredData = {
                     email: request.auth.credentials.email,
                     taskId: request.params.taskId,
-                    taskStatus: request.params.taskStatus
+                    completed: request.payload.completed,
+                    description: request.payload.description
                 };
                 dao.toDoList.updateTaskStatus(requiredData, (err, data)=> {
                     if (err) {

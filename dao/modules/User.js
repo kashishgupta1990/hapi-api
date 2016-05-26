@@ -5,7 +5,6 @@ var UserModule = {
         /*
          * email:yoman@gmail.com,
          * password:*******,
-         * roles:['user']
          * */
 
         // Check existing user
@@ -15,6 +14,7 @@ var UserModule = {
             } else {
                 if (!result) {
                     var uData = new Model.User(data);
+                    console.log(uData.save);
                     uData.save(callback);
                 } else {
                     callback({

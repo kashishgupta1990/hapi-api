@@ -18,18 +18,20 @@
   - [Revision History](#revision-history)
 
 
-#Hapi Mongoose Boilerplate #
+# Hapi Api Boilerplate #
 
 This Boilerplate is ready to use pack having very exciting feature of HapiJs and MongooseJs. 
 
 This Boilerplate having some of common plugin which can be used as per required.
 
-This boilerplate will give you a quick start to your Node Application Server with HapiJs.
+This Boilerplate will give you a quick start to your Node Application Server with HapiJs.
 
-We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate.
+We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
+
+It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's 
 
 ##Installation##
-This library is available for **Node** only. See the installation steps below:
+This library is available for **Node v4** and above. See the installation steps below:
 
 ###Download(GIT)###
 ```bash
@@ -38,12 +40,12 @@ $ git clone git@github.com:kashishgupta1990/hapi-api.git
 ###NPM Install(npm)###
 ```bash
 $ npm install
-$ node app.js (By Default you can see server running on Address http://localhost:7002)
+$ node app.js (By Default you can see server running on Address http://localhost:9999)
 ```
 ##Boilerplate Structure##
 
   - api
-    - CreateFolder(login)
+    - CreateFolder(auth)
       - FileName.route.js (login.route.js)
       - FileName.service.js (login.service.js)
       - CreateFolder (You can make sub-nesting folder..)
@@ -56,31 +58,24 @@ $ node app.js (By Default you can see server running on Address http://localhost
     - Bootstrap.js
     - Config.json
   - custom_modules
-    - custom-imagemim-log
-    - global-utility
-    - hapi-role-manager
-    - mongooseAuto
+    - mailer
+  - dao
+    - modules
+      - ToDoList.js (It is `M` from `MVC` framework. Containing the ToDoApp model.)
+      - User.js (It contain the User model which interact with mongodb.)
+    - schema 
+      - User.js (Containing ToDoApplication User Schema)
+      - Sample.js (Its is just a sample file. Showing the file structure and usage.)
   - globalEvent
-    - FileName.js
-    - OneMoreFileName.js
+    - email.js
+    - notification.js (It is just a sample file. Showing the file structure and usage.)
     - So on...
-  - mongooseDomain
-    - SampleModel.js
-    - User.js
-    - add more models yourself ...
   - node_modules 
     - contains all the dependency ...
   - public (Contain all public folder)
     - index.html 
     - css
     - So on..
-  - sharedService
-    - FileName.js
-    - FolderName
-      - FileName.service.js
-      - So on...
-    - more files ..
-    - more folders ..
   - app.js (main file of the project)
   
 ##Setting up configuration (Folder: config)##
@@ -107,73 +102,103 @@ module.exports = function (environment, callback) {
 ###Config.json###
 ``Config.json`` contains all the application level configuration variables. Use config.json file by ``_config`` as global variable.
 ```javascript
-"development": {
+  "development": {
     "server": {
       "host": "localhost",
-      "port": "7002",
+      "port": "9999",
       "allowCrossDomain": true
     },
     "database": {
+      "required": false,
       "url": "mongodb://localhost:27017/boilerplate",
-      "poolSize": 5,
+      "poolSize": 2,
       "tryToConnect": true
     },
     "cookie": {
-      "password": "secret",
-      "cookie": "hm-boilerplate",
+      "password": "enter-your-32-char-secret-key",
+      "cookie": "hapi-api-dev",
       "redirectTo": "/login",
       "isSecure": false
+    },
+    "mail":{
+      "gmail":{
+        "service":"Gmail",
+        "username":"guptkashish",
+        "password":"your-password"
+      }
     }
   }
 ```
 
-##Mongoose Domain and Modal##
+## DAO (Data Access Object) Schema and its Module##
 
-###mongooseDomain###
-``mongooseDomain`` is a home for all mongoose domain. You just have to create file like ``User.js``, define mongoose schema into file, that's all.
+### schema ###
+``dao/schema`` is a home for all mongoose domain. You just have to create file like ``User.js``, define mongoose schema into file, that's all.
 You can access your mongoose modal form any where in boilerplate (routes, bootstarp files) by ``Modal`` object.
 Examples are given below:
 
-####Define User Domain####
-``Define User Domain`` in /mongooseDomain/User.js
+#### Define Sample Domain####
+``Define Sample Domain`` in /dao/schema/Sample.js
 ```javascript
 "use strict";
 
-//Define User Schema
+//Define Sample Schema
 //Refer: http://mongoosejs.com/docs/schematypes.html
-module.exports = {
-    username: String,
-    password: String
-};
-```
-####User Modal####
-Use ``User Modal`` any where from routs / bootstrap
-```javascript
-//Save New User
-new Modal.User({
-      username: "admin",
-      password: "admin"
-    }).save(function (err, result) {
-               if (err) {
-                  log.error("Error Save Record: " + err);
-               } else {
-                  log.cool('User Save Successfully');
-               }
-       })
-
-//Get User
-Modal.User.find({username: 'admin'}, function (err, data) {
-            if (err) {
-                log.error(err);
-            } else {
-                log.cool(data);
+var sample = {
+    schema: {
+        id: Number,
+        sampleData: String,
+        sampleItem: String
+    },
+    modelMethods: [
+        {
+            name: 'M1',
+            action: ()=> {
+                console.log('I am sample method M1');
             }
-})
+        },
+        {
+            name: 'M2',
+            action: ()=> {
+                console.log('I am sample method M2');
+            }
+        }
+    ]
+
+};
+
+// Schema
+module.exports = sample;
+```
+#### Sample Modules####
+Use ``Define Sample Module`` in /dao/modules/sample.js
+```javascript
+'use strict';
+
+module.exports = {
+    saveSample: (callback)=> {
+
+        // Creating Sample data object
+        var sData = new Model.Sample({
+            sampleData:'s1',
+            sampleItem:'s2'
+        });
+
+        // Calling model method
+        sData.M1();
+        
+        // Save into database
+        sData.save(callback);
+    },
+    getSample: (callback)=> {
+        Model.Sample.find({},callback);
+    }
+};
 ```
 ##How to define Routes##
 
-###Route###
-``route`` is a folder where we can define routs. Create folder in side route folder or you can directly create file with any name we want. File should follow this type of syntax. Here you can write handlers in ``Javascript ECMAScript-6`` syntax like below.
+### API Route###
+``api`` is a folder where we can define routes. Create folder in side `api` folder or you can directly create file with any name we want. File should follow the `*.route.js` notation. Here `*` will be replaced by any `filename`.
 ```javascript
 "use strict";
 var Joi = require('joi');
@@ -212,6 +237,3 @@ module.exports = [
 
 ##Lets Build Together##
 Just open an issue in case found any bug(There is always a scope of improvement). We are always open for suggestion / issue / add new feature request. Fork and start creating pull request. :-)
-
-##Revision History##
-* **Version v0.1.0**: The second poc release v0.1.0.

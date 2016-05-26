@@ -3,7 +3,7 @@
 module.exports = {
     saveSample: (callback)=> {
 
-        var sData = new Model.SampleModel({
+        var sData = new Model.Sample({
             sampleData:'s1',
             sampleItem:'s2'
         });
@@ -12,6 +12,6 @@ module.exports = {
         sData.save(callback);
     },
     getSample: (callback)=> {
-        Model.SampleModel.find({},callback);
+        Model.Sample.find({},callback);
     }
 };

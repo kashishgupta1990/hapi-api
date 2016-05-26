@@ -4,7 +4,6 @@ var userModel = {
     schema: {
         email: String,
         password: String,
-        roles: [String],
         toDoList: {
             type: [{
                 description: {
@@ -22,7 +21,7 @@ var userModel = {
                     default: false
                 }
             }],
-            required: true,
+            required: false,
             default: []
         }
     },

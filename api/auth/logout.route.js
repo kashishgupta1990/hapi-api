@@ -8,8 +8,8 @@ module.exports = [
         path: '/api/v1/auth/logout',
         method: ['POST'],
         config: {
-            description: 'Login Here',
-            notes: 'Do login here',
+            description: 'Logout Here',
+            notes: 'Do logout here',
             tags: ['api'],
             handler: function (request, reply) {
 
