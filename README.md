@@ -27,10 +27,14 @@ This Boilerplate will give you a quick start to your Node Application Server wit
 We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
 It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's 
 
+## Cloud Platform Support ##
+
+We support `Heroku` cloud platform as a service (PaaS). It's very easy to deploy on `Heroku` server just update your application `config.json` file with appropriate environment name, server, cookies and database settings. Finally push your code to heroku `master` branch rest will automatically done by `Heroku`.
+
 ## Prerequisite ##
 
-- NodeJs v4.x and above required.
-- MongoDB Server 3.2.x and above required.
+- `NodeJs v4.x` and above required.
+- `MongoDB Server 3.2.x` and above required.
 
 ## Installation ##
 
