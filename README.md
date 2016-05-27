@@ -253,7 +253,7 @@ module.exports = [
 
 We support `Heroku` cloud platform as a service (PaaS). It's very easy to deploy on `Heroku` server just update your application `config.json` file with appropriate environment name, server, cookies and database settings. Finally push your code to heroku `master` branch rest will automatically done by `Heroku`.
 
-## Docker Support ##
+# Docker Support #
 
 We support `Docker` Container as a service (CaaS). It's very easy to build the `Hapi Api Boilerplate` docker image with updated codebase and run the container on any type production environment.
 
@@ -283,17 +283,14 @@ docker run -d --name "hapiapiprod" -p 9999:9999  kashishgupta1990/hapiapitest
 ```bash
 docker ps -a
 ```
-- Select the CONTAINER ID / NAMES (look like -> aea8bf1d2562) and copy it. Run the following command.
+- Select the CONTAINER ID / NAMES (look like -> aea8bf1d2562) and copy it. Run the following command. It will return you container terminal.
 ```bash
 docker exec -it hapiapi /bin/bash
 ```
-or
 ```bash
 docker exec -it aea8bf1d2562 /bin/bash
 ```
-These command will return you container terminal.
-
-Type command: `pm2 logs`
+- Type command: `pm2 logs`
 ```bash
 pm2 logs
 ```
