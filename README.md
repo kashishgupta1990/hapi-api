@@ -15,9 +15,9 @@
       - [User Modal](#user-modal)
   - [How to define Routes ](#how-to-define-routes)
     - [Route](#route)
+  - [Cloud Platform Support](#cloud-platform-support)
+  - [Docker Support](#docker-support)
   - [Lets Build Together](#lets-build-together)
-  - [Revision History](#revision-history)
-
 
 # Hapi Api Boilerplate #
 
