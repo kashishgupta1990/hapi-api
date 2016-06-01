@@ -25,7 +25,7 @@ This Boilerplate is ready to use pack having very exciting feature of HapiJs and
 This Boilerplate having some of common plugin which can be used as per required. 
 This Boilerplate will give you a quick start to your Node Application Server with HapiJs.
 We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
-It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's
+It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's.
 
 #### Try Now [To-Do-List Application Api](http://todoapi.kashishgupta.in/documentation) ####
 
@@ -47,6 +47,16 @@ $ git clone git@github.com:kashishgupta1990/hapi-api.git
 $ npm install
 $ node app.js (By Default you can see server running on Address http://localhost:9999)
 ```
+
+### Build your own project and remove default `ToDoApplication` ###
+Execute this command inside your project root directory. This will remove unwanted files which was use for `ToDoApplication`.
+```bash
+sh reset.sh
+```
+
+### Refer Blog for Kick-Start ###
+- [Build RESTful API's using HapiApi boilerplate]
+
 ## Boilerplate Structure ##
 
   - api
@@ -298,3 +308,6 @@ pm2 logs
 ## Lets Build Together ##
 
 Just open an issue in case found any bug(There is always a scope of improvement). We are always open for suggestion / issue / add new feature request. Fork and start creating pull request. :-)
+
+
+[Build RESTful API's using HapiApi boilerplate]: http://blog.kashishgupta.in/2016/06/01/kickstart-with-hapi-js-restful-api/
