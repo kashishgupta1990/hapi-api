@@ -1,39 +1,38 @@
+// File Path: dao/modules/User.js
 'use strict';
 
+var ObjectId = require('mongoose').Types.ObjectId;
 var UserModule = {
-    signUpUser: (data, callback)=> {
-        /*
-         * email:yoman@gmail.com,
-         * password:*******,
-         * */
-
-        // Check existing user
-        UserModule.validateUser(data, (err, result)=> {
-            if (err) {
-                callback(err, null);
-            } else {
-                if (!result) {
-                    var uData = new Model.User(data);
-                    console.log(uData.save);
-                    uData.save(callback);
-                } else {
-                    callback({
-                        status: false,
-                        message: 'emailId already in use',
-                        data:{
-                            email:data.email
-                        }
-                    }, null);
-                }
-            }
-        });
+    add: (data, callback)=> {
+        Model.User.insert({
+            "name": data.name, "age": data.age
+        }, callback);
     },
-    validateUser: (data, callback)=> {
-        /*
-         * email:yoman@gmail.com,
-         * password:********
-         * */
-        Model.User.findOne(data, callback);
+    remove: (data, callback)=> {
+        Model.User.remove({
+            _id: new ObjectId(data.id)
+        }, callback);
+    },
+    update: (data, callback)=> {
+        let updateQuery = {};
+        if (data.name) {
+            updateQuery.name = data.name;
+        }
+        if (data.age) {
+            updateQuery.age = data.age;
+        }
+
+        Model.User.update({
+            _id: new ObjectId(data.id)
+        }, updateQuery, callback);
+    },
+    showUserById: (data, callback)=> {
+        Model.User.findOne({
+            _id: data.id
+        }, callback);
+    },
+    showAllUser: (data, callback)=> {
+        Model.User.find({}, callback);
     }
 };
 
