@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 var pluginList = [];
 var path = require('path');
 var EventEmitter = require("events").EventEmitter;
-var mailer = require('./custom_modules/mailer');
+var gmailNode = require('gmail-node');
 var serverTasks = [];
 
 // Constant variables
@@ -25,7 +25,7 @@ const _PORT = process.env.PORT || _APP_CONFIG.server.port;
 global._APP_DIR = __dirname;
 global.Model = {};
 global.GlobalEvent = {};
-global.Mail = {};
+global.gmail = {};
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -177,6 +177,12 @@ serverTasks.push((callback)=> {
     });
 });
 
+// Gmail Node Configuration
+serverTasks.push((callback)=> {
+    global.gmail = gmailNode;
+    gmailNode.init(_APP_CONFIG.mail.gmail, './token.json', callback);
+});
+
 // Route Configuration
 serverTasks.push((callback)=> {
     function applyRouteConfig(dirPath) {
@@ -244,15 +250,6 @@ serverTasks.push((callback)=>{
     global.GlobalEvent = _globalEvent;
 
     callback(null, 'Global Event Binding Complete');
-});
-
-// NodeMailer Register
-serverTasks.push((callback)=>{
-    // Do NodeMailer Registration here
-    mailer(_APP_CONFIG.mail,(err,mail)=>{
-        global.Mail = mail;
-        callback(err,'Mailer Successfully register');
-    });
 });
 
 //Running Bootstrap Task

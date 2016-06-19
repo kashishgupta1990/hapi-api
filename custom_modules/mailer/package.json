@@ -1,8 +1,0 @@
-{
-  "name": "mailer",
-  "description": "Custome Node Mailer",
-  "version": "0.1.0",
-  "main": "index",
-  "dependencies": {
-  }
-}

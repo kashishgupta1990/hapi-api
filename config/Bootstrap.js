@@ -23,9 +23,12 @@ module.exports = function (environment, callback) {
 
     //Sample Task
     function Test(callback) {
-        //console.log('Test Task Runner');
-        GlobalEvent.emit('defaultEmailNotification');
-        callback(null, 'Test Task Runner')
+        var mailOptions = {
+            to: "guptkashish@gmail.com", // list of receivers
+            subject: "test-1 ", // Subject line
+            message: "test-2: "
+        };
+        GlobalEvent.emit('defaultEmailNotification',mailOptions, callback);
     }
 
     //Task Template to create more task
