@@ -15,7 +15,12 @@ module.exports = [
             description: 'Show ToDo Task',
             notes: 'Show ToDo Task',
             tags: ['api'],
-            auth: {mode: 'try', strategy: 'session'},
+            auth: 'jwt',
+            validate: {
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
             handler: (request, reply)=> {
                 var requiredData = {
                     email: request.auth.credentials.email
@@ -26,13 +31,13 @@ module.exports = [
                             status: false,
                             message: 'Failed to show all task.',
                             data: err
-                        });
+                        }).header("Authorization", request.headers.authorization);
                     } else {
                         reply({
                             status: true,
                             message: 'Task successfully fetched.',
                             data: data
-                        });
+                        }).header("Authorization", request.headers.authorization);
                     }
                 });
             }

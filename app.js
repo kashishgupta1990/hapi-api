@@ -23,6 +23,7 @@ const _PORT = process.env.PORT || _APP_CONFIG.server.port;
 
 // Global Variables
 global._APP_DIR = __dirname;
+global._APP_CONFIG = _APP_CONFIG;
 global.Model = {};
 global.GlobalEvent = {};
 global.gmail = {};
@@ -75,9 +76,9 @@ serverTasks.push((callback)=> {
             info: {
                 'title': 'API Documentation',
                 'version': Pack.version,
-                'contact':{
-                    'name':'Kashish Gupta',
-                    'email':'kashishgupta1990@yahoo.com'
+                'contact': {
+                    'name': 'Kashish Gupta',
+                    'email': 'kashishgupta1990@yahoo.com'
                 }
             }
         };
@@ -107,14 +108,14 @@ serverTasks.push((callback)=> {
                 console: [{
                     module: 'good-squeeze',
                     name: 'Squeeze',
-                    args: [{ log: '*', response: '*' }]
+                    args: [{log: '*', response: '*'}]
                 }, {
                     module: 'good-console'
                 }, 'stdout'],
                 file: [{
                     module: 'good-squeeze',
                     name: 'Squeeze',
-                    args: [{ ops: '*' }]
+                    args: [{ops: '*'}]
                 }, {
                     module: 'good-squeeze',
                     name: 'SafeJson'
@@ -122,12 +123,12 @@ serverTasks.push((callback)=> {
                 http: [{
                     module: 'good-squeeze',
                     name: 'Squeeze',
-                    args: [{ error: '*' }]
+                    args: [{error: '*'}]
                 }, {
                     module: 'good-http',
                     args: ['http://prod.logs:3000', {
                         wreck: {
-                            headers: { 'x-api-key': 12345 }
+                            headers: {'x-api-key': 12345}
                         }
                     }]
                 }]
@@ -147,21 +148,51 @@ serverTasks.push((callback)=> {
     });
 
     // Hapi Auth Cookie
+    /*pluginList.push(function (callback) {
+     server.register(require('hapi-auth-cookie'), (err)=> {
+     if (err) {
+     throw err;
+     } else {
+     server.auth.strategy('session', 'cookie', {
+     password: _APP_CONFIG.cookie.password,
+     cookie: _APP_CONFIG.cookie.cookie,
+     redirectTo: _APP_CONFIG.cookie.redirectTo,
+     isSecure: _APP_CONFIG.cookie.isSecure,
+     validateFunc: function (request, session, callback) {
+     return callback(null, true);
+     }
+     });
+     callback(err, 'Hapi Auth Cookie Enabled');
+     }
+     });
+     });*/
+
+    // JSON Web Token
     pluginList.push(function (callback) {
-        server.register(require('hapi-auth-cookie'), (err)=> {
+        server.register(require('hapi-auth-jwt2'), (err)=> {
             if (err) {
                 throw err;
             } else {
-                server.auth.strategy('session', 'cookie', {
-                    password: _APP_CONFIG.cookie.password,
-                    cookie: _APP_CONFIG.cookie.cookie,
-                    redirectTo: _APP_CONFIG.cookie.redirectTo,
-                    isSecure: _APP_CONFIG.cookie.isSecure,
-                    validateFunc: function (request, session, callback) {
-                        return callback(null, true);
-                    }
+                server.auth.strategy('jwt', 'jwt', {
+                    key: _APP_CONFIG.jwt.key,          // Never Share your secret key
+                    validateFunc: (decoded, request, callback) => {
+                        // do your checks to see if the person is valid
+                        if (!decoded.email) {
+                            return callback(null, false);
+                        }
+                        else {
+                            return callback(null, true);
+                        }
+                    },
+                    // validate function defined above
+                    verifyOptions: {
+                        ignoreExpiration: true,
+                        algorithms: ['HS256']
+                    } // pick a strong algorithm
                 });
-                callback(err, 'Hapi Auth Cookie Enabled');
+
+                server.auth.default('jwt');
+                callback(err, 'JSON Web Token Enabled');
             }
         });
     });
@@ -212,6 +243,9 @@ serverTasks.push((callback)=> {
     });
     server.route({
         method: 'GET',
+        config: {
+            auth: false
+        },
         path: '/{param*}',
         handler: {
             directory: {
@@ -223,7 +257,7 @@ serverTasks.push((callback)=> {
 });
 
 // Global Module Event Register
-serverTasks.push((callback)=>{
+serverTasks.push((callback)=> {
     var _globalEvent = new EventEmitter();
 
     function createEmitterEvent(eventList) {

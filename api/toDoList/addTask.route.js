@@ -18,9 +18,12 @@ module.exports = [
             validate: {
                 payload: {
                     description: Joi.string().required()
-                }
+                },
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
             },
-            auth: {mode: 'try', strategy: 'session'},
+            auth: 'jwt',
             handler: (request, reply)=> {
                 var requiredData = {
                     email: request.auth.credentials.email,
@@ -32,13 +35,13 @@ module.exports = [
                             status: false,
                             message: 'Failed to add your task.',
                             data: err
-                        });
+                        }).header("Authorization", request.headers.authorization);
                     } else {
                         reply({
                             status: true,
                             message: 'Task successfully saved.',
                             data: data
-                        });
+                        }).header("Authorization", request.headers.authorization);
                     }
                 });
             }

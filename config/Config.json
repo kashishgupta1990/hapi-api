@@ -17,6 +17,9 @@
       "redirectTo": "/login",
       "isSecure": false
     },
+    "jwt":{
+      "key":"NeverShareYourSecretNeverShareYourSecret"
+    },
     "mail":{
       "gmail":{
         "installed": {
@@ -51,6 +54,9 @@
       "cookie": "hapi-api-beta",
       "redirectTo": "/login",
       "isSecure": false
+    },
+    "jwt":{
+      "key":"NeverShareYourSecretNeverShareYourSecret"
     },
     "mail":{
       "gmail":{

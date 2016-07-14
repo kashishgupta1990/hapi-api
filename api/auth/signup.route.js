@@ -15,6 +15,7 @@ module.exports = [
             description: 'SignUp Here',
             notes: 'SignUp here',
             tags: ['api'],
+            auth: false,
             validate: {
                 payload: {
                     email: Joi.string().email().required(),

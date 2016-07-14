@@ -11,15 +11,22 @@ module.exports = [
             description: 'Logout Here',
             notes: 'Do logout here',
             tags: ['api'],
+            auth: 'jwt',
+            validate: {
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
             handler: function (request, reply) {
 
+                // Todo clear from server
+
                 //To Authenticate User
-                request.cookieAuth.clear();
                 reply({
                     status:true,
                     message:'logout successfully',
                     data:{}
-                });
+                }).header("Authorization", "logoutSuccessfully");
 
             }
         }
