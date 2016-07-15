@@ -58,7 +58,8 @@ module.exports = [
                                 status:true,
                                 message:'successfully login',
                                 data:{
-                                    email:data.email
+                                    email:data.email,
+                                    token:token
                                 }
                             }).header("Authorization", token);
                         }else{
