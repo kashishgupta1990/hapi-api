@@ -304,11 +304,11 @@ reply({
 curl -X GET --header 'Accept: application/json' --header 'authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imthc2hpc2hndXB0YTE5OTBAeWFob28uY29tIiwiaWF0IjoxNDY4OTI2MDY3fQ.FNtiiSkQDSvfG4KZfB6f7MMMjlJ2lNTpLpMYJz83Y1o' 'http://localhost:9999/api/v1/todolist'
 ```
 
-- Access Token (decoded) Data inside Route Handler###
+- Access Token (decoded) Data inside Route Handler
 Token generated at the time of `login` should be available in the request header with the `request.tokenData` 
 This token contains the user data or what ever you want to save at the time of login. Refer `api/auth/login.route.js`
 
-- Generate & save token Login API Example ###
+- Generate & save token Login API Example 
 ```javascript
 var JWT = require('jsonwebtoken');
 ```
@@ -321,7 +321,7 @@ var JWT = require('jsonwebtoken');
             description: 'Login Here',
             notes: 'Do login here',
             tags: ['api'],
-            auth: false,
+            auth: false, // This is use for open route
             validate:{
                 payload:{
                     email:Joi.string().email().required(),
@@ -400,7 +400,7 @@ Refer File: `/api/toDoList/addTask.route.js`
                     'authorization': Joi.string().required()
                 }).unknown()
             },
-            auth: 'jwt',
+            auth: 'jwt', // This is use for auth routes
             handler: (request, reply)=> {
                // Access Secure Token User Data
                console.log('Token Data: ',request.tokenData);
