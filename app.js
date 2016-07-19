@@ -181,6 +181,7 @@ serverTasks.push((callback)=> {
                             return callback(null, false);
                         }
                         else {
+                            request.tokenData = decoded;
                             return callback(null, true);
                         }
                     },

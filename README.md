@@ -27,9 +27,7 @@ This Boilerplate will give you a quick start to your Node Application Server wit
 We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
 It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's.
 
-- When run this boilerplate first time, it will ask for auth key of Gmail notification integration and send you email on application start. Update the `Bootstrap.js` `Test` Task.
-- Warning: Just added JWT REANME file need to be update.
-- TODO: Add redis or mongodb to store auth token
+- When run this boilerplate first time, it will ask for auth key of GMail notification integration and send you email on application start. Update the `Bootstrap.js` `Test` Task.
 
 #### Try Now [To-Do-List Application Api](http://todoapi.kashishgupta.in/documentation) ####
 
@@ -140,6 +138,9 @@ module.exports = function (environment, callback) {
       "cookie": "hapi-api-dev",
       "redirectTo": "/login",
       "isSecure": false
+    },
+    "jwt":{
+          "key":"NeverShareYourSecretNeverShareYourSecret"
     },
     "mail":{
       "gmail":{
@@ -270,7 +271,145 @@ module.exports = [
 ];
 ```
 
-# Cloud Platform Support ##
+## Route Authentication Mechanism ##
+
+To authenticate the `API's` here we have used [JSON Web Token]: https://github.com/dwyl/hapi-auth-jwt2, which help us to secure our routes just by adding one field in `route config:{}` object.
+which is `auth:"jwt"` to enable the secure route and `auth:false` to disable the routes. Refer the File: `api/toDoList/addTask.route.js`.
+
+### How to create `User Token` at the time of login ###
+- Require the package `npm install jsonwebtoken`
+```javascript
+var JWT   = require('jsonwebtoken');
+```
+
+- Sign the Token with same secret key available in `/config/Config.json`. Field: `jwt:'your-secret-key'` 
+```javascript
+let token = JWT.sign(userData, global._APP_CONFIG.jwt.key);
+```
+
+- Setting this key in Response data and response header.
+```javascript
+reply({
+  status:true,
+  message:'successfully login',
+  data:{
+    email:data.email,
+    token:token
+  }
+}).header("Authorization", token);
+```
+
+- All the future request raise by client containing with `authorization` header can access `authenticated` `API's`. Try this in `terminal`
+```javascript
+curl -X GET --header 'Accept: application/json' --header 'authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imthc2hpc2hndXB0YTE5OTBAeWFob28uY29tIiwiaWF0IjoxNDY4OTI2MDY3fQ.FNtiiSkQDSvfG4KZfB6f7MMMjlJ2lNTpLpMYJz83Y1o' 'http://localhost:9999/api/v1/todolist'
+```
+
+- Access Token (decoded) Data inside Route Handler###
+Token generated at the time of `login` should be available in the request header with the `request.tokenData` 
+This token contains the user data or what ever you want to save at the time of login. Refer `api/auth/login.route.js`
+
+- Generate & save token Login API Example ###
+```javascript
+var JWT = require('jsonwebtoken');
+```
+
+```javascript
+{
+        path: '/api/v1/auth/login',
+        method: ['POST'],
+        config: {
+            description: 'Login Here',
+            notes: 'Do login here',
+            tags: ['api'],
+            auth: false,
+            validate:{
+                payload:{
+                    email:Joi.string().email().required(),
+                    password:Joi.string().min(8).max(16).required()
+                }
+            },
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '200': {
+                            'description': 'Success',
+                            'schema': Joi.object({
+                                status:true,
+                                message:'Successfully Login'
+                            }).label('Result')
+                        },
+                        '400': {'description': 'Bad Request'}
+                    },
+                    payloadType: 'json'
+                }
+            },
+            handler: function (request, reply) {
+
+                var dbPayload = {
+                    email: request.payload.email,
+                    password: request.payload.password
+                };
+                dao.user.validateUser(dbPayload, (err, data)=>{
+                    if(err){
+                        reply(err);
+                    }else{
+                        if(data){
+                            let userData = {
+                                email:data.email
+                            };
+                            let token = JWT.sign(userData, global._APP_CONFIG.jwt.key);
+
+                            reply({
+                                status:true,
+                                message:'successfully login',
+                                data:{
+                                    email:data.email,
+                                    token:token
+                                }
+                            }).header("Authorization", token);
+                        }else{
+                            reply({
+                                status:false,
+                                message:'Invalid User or Password',
+                                data:{}
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    }
+```
+
+- Access Token Data API
+Refer File: `/api/toDoList/addTask.route.js`
+
+```javascript
+ {
+        path: '/api/v1/todolist',
+        method: ['POST'],
+        config: {
+            description: 'Add new ToDo Task',
+            notes: 'Add new ToDo Task',
+            tags: ['api'],
+            validate: {
+                payload: {
+                    description: Joi.string().required()
+                },
+                headers: Joi.object({
+                    'authorization': Joi.string().required()
+                }).unknown()
+            },
+            auth: 'jwt',
+            handler: (request, reply)=> {
+               // Access Secure Token User Data
+               console.log('Token Data: ',request.tokenData);
+            }
+        }
+}
+```
+
+# Cloud Platform Support #
 
 We support `Heroku` cloud platform as a service (PaaS). It's very easy to deploy on `Heroku` server just update your application `config.json` file with appropriate environment name, server, cookies and database settings. Finally push your code to heroku `master` branch rest will automatically done by `Heroku`.
 

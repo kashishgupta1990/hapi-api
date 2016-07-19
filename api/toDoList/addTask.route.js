@@ -29,6 +29,10 @@ module.exports = [
                     email: request.auth.credentials.email,
                     description: request.payload.description
                 };
+
+                // Access Token Data
+                console.log('User Token Data: ',request.tokenData);
+
                 dao.toDoList.add(requiredData, (err, data)=> {
                     if (err) {
                         reply({
