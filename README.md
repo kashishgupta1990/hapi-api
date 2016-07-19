@@ -27,8 +27,9 @@ This Boilerplate will give you a quick start to your Node Application Server wit
 We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
 It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's.
 
-Warning: Just added JWT REANME file need to be update.
-TODO: Add redis or mongodb to store token
+- When run this boilerplate first time, it will ask for auth key of Gmail notification integration and send you email on application start. Update the `Bootstrap.js` `Test` Task.
+- Warning: Just added JWT REANME file need to be update.
+- TODO: Add redis or mongodb to store auth token
 
 #### Try Now [To-Do-List Application Api](http://todoapi.kashishgupta.in/documentation) ####
 
