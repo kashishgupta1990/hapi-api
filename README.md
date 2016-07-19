@@ -276,8 +276,8 @@ module.exports = [
 To authenticate the `API's` here we have used [JSON Web Token]: https://github.com/dwyl/hapi-auth-jwt2, which help us to secure our routes just by adding one field in `route config:{}` object.
 which is `auth:"jwt"` to enable the secure route and `auth:false` to disable the routes. Refer the File: `api/toDoList/addTask.route.js`.
 
-### How to create `User Token` at the time of login ###
-- Require the package `npm install jsonwebtoken`
+- How to create `User Token` at the time of login
+First require the package `npm install jsonwebtoken`
 ```javascript
 var JWT   = require('jsonwebtoken');
 ```
