@@ -27,7 +27,19 @@ This Boilerplate will give you a quick start to your Node Application Server wit
 We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate. 
 It's by default gives you the `ToDoApplication` API's. It will help you to understand and build your own API's.
 
-- When run this boilerplate first time, it will ask for auth key of GMail notification integration and send you email on application start. Update the `Bootstrap.js` `Test` Task.
+
+## When run this boilerplate first time, it will ask for auth key of GMail notification integration and send you email on application start. Update the `Bootstrap.js` `Test` Task.
+### How to create gmail secret key and update the `/config/Config.json` gmail object credentials  
+- Open link https://console.developers.google.com/flows/enableapi?apiid=gmail
+- Use this wizard to create or select a project in the Google Developers Console and automatically turn on the API. 
+- Click Continue, then Go to credentials.
+- At the top of the page, select the OAuth consent screen tab. Select an Email address, enter a Product name if not already set, and click the Save button.
+- Select the Credentials tab, click the Create credentials button and select OAuth client ID.
+- Select the application type Other, enter the any name "gmail-node-app", and click the Create button.
+- Click OK to dismiss the resulting dialog.
+- Click the file_download (Download JSON) button to the right of the client ID.
+- Copy the file data from from Downloaded JSON and update the `/config/Config.json` file.
+
 
 #### Try Now [To-Do-List Application Api](http://todoapi.kashishgupta.in/documentation) ####
 
