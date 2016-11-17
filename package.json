@@ -14,7 +14,7 @@
     "npm": "3.3.12"
   },
   "author": "Kashish Gupta",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://github.com/kashishgupta1990/hapi-api",
   "dependencies": {
     "async": "^2.0.1",
