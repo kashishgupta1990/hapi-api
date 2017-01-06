@@ -9,7 +9,8 @@
       "required": false,
       "url": "mongodb://localhost:27017/boilerplate",
       "poolSize": 2,
-      "tryToConnect": true
+      "auto_reconnect":true,
+      "reconnectDelay": 10000
     },
     "cookie": {
       "password": "secretsecretsecretsecretsecretsecretsecretsecret",

@@ -18,7 +18,7 @@ var serverTasks = [];
 
 // Constant variables
 const _ENV_NAME = process.env.NAME || 'development';
-const _APP_CONFIG = appConfig[_ENV_NAME];
+var _APP_CONFIG = appConfig[_ENV_NAME];
 const _PORT = process.env.PORT || _APP_CONFIG.server.port;
 
 // Global Variables
@@ -40,17 +40,39 @@ server.connection({
 // MongoDB Connection
 serverTasks.push((callback)=> {
 
-    // Connect Method
-    mongoose.connect(_APP_CONFIG.database.url, {
-        server: {
-            poolSize: _APP_CONFIG.database.poolSize
-        }
-    }, (dd, err)=> {
+    // Connect Methods
+    let db = mongoose.connection;
+    let daoStructureProcessed = false;
+    let connectMongodb = (delay, callback)=>{
+        var dbInterval = setTimeout(()=>{
+            mongoose.connect(_APP_CONFIG.database.url, {
+                server: {
+                    poolSize: _APP_CONFIG.database.poolSize,
+                    auto_reconnect: _APP_CONFIG.database.auto_reconnect
+                }
+            }, (err)=> {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    clearTimeout(dbInterval);
+                    callback(null, 'MongoDB Successfully Connected');
+                }
+            });
+        }, delay);
+    };
+
+    // Database Events
+    db.on('connecting', function() {
+        console.log('Trying to connect mongoDB server...');
+    });
+    db.on('error', function(error) {
+        console.error('Error In MongoDB Connection: ' + error);
+        mongoose.disconnect();
+    });
+    db.on('connected', function() {
+        console.log('MongoDB Connected Successfully.');
         var schemaDirPath = path.join(global._APP_DIR, 'dao', 'schema');
-        if (err) {
-            console.error('Failed to connect with MongoDB. ' + err);
-            throw err;
-        } else {
+        if(!daoStructureProcessed){
             fs.readdir(schemaDirPath, (error, fileList)=> {
                 fileList.forEach((fileName)=> {
                     var modelName = fileName.replace(/.js/, '');
@@ -61,11 +83,28 @@ serverTasks.push((callback)=> {
                     });
                     global.Model[modelName] = mongoose.model(modelName, schema);
                 });
-
-                callback(err, 'MongoDB Successfully Connected');
+                daoStructureProcessed = true;
             });
         }
     });
+    db.on('reconnected', function () {
+        console.log('MongoDB Reconnected.');
+    });
+    db.on('disconnected', function() {
+        console.log('MongoDB Disconnected!');
+        connectMongodb(_APP_CONFIG.database.reconnectDelay, (err, message)=>{
+            console.log(err || message);
+        });
+    });
+
+    // If the Node process ends, close the Mongoose connection
+    process.on('SIGINT', function() {
+        mongoose.connection.close(function () {
+            console.log('Mongoose default connection disconnected through app termination');
+            process.exit(0);
+        });
+    });
+    connectMongodb(0, callback);
 });
 
 // Plugin Registration Operations
@@ -126,7 +165,7 @@ serverTasks.push((callback)=> {
                     args: [{error: '*'}]
                 }, {
                     module: 'good-http',
-                    args: ['http://prod.logs:3000', {
+                    args: ['http://localhost:3000', {
                         wreck: {
                             headers: {'x-api-key': 12345}
                         }
@@ -146,26 +185,6 @@ serverTasks.push((callback)=> {
             }
         });
     });
-
-    // Hapi Auth Cookie
-    /*pluginList.push(function (callback) {
-     server.register(require('hapi-auth-cookie'), (err)=> {
-     if (err) {
-     throw err;
-     } else {
-     server.auth.strategy('session', 'cookie', {
-     password: _APP_CONFIG.cookie.password,
-     cookie: _APP_CONFIG.cookie.cookie,
-     redirectTo: _APP_CONFIG.cookie.redirectTo,
-     isSecure: _APP_CONFIG.cookie.isSecure,
-     validateFunc: function (request, session, callback) {
-     return callback(null, true);
-     }
-     });
-     callback(err, 'Hapi Auth Cookie Enabled');
-     }
-     });
-     });*/
 
     // JSON Web Token
     pluginList.push(function (callback) {
