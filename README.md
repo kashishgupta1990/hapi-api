@@ -71,6 +71,8 @@ sh reset.sh
 ### Refer Blog for Kick-Start ###
 - [Build RESTful API's using HapiApi boilerplate]
 
+### Rename sample.env to .env and update the file.
+
 ## Boilerplate Structure ##
 
   - api

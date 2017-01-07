@@ -52,7 +52,7 @@ module.exports = [
                             let userData = {
                                 email:data.email
                             };
-                            let token = JWT.sign(userData, global._APP_CONFIG.jwt.key);
+                            let token = JWT.sign(userData, process.env.JWT_KEY);
 
                             reply({
                                 status:true,

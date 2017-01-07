@@ -4,24 +4,7 @@ var async = require('async');
 
 module.exports = function (environment, callback) {
 
-    //Add your task name here
-    var env = {
-        "development": [Test],
-        "beta":[Test]
-        //Add more environment here
-        // "development": [Test,YourTaskName, Add more task here]
-    };
-
-    function play(environment) {
-        async.series(env[environment], function (err, result) {
-            console.log('Booting process completed.');
-            callback(err, result);
-        })
-    }
-
-    play(environment);
-
-    //Sample Task
+    // Tasks
     function Test(callback) {
         var mailOptions = {
             to: "guptkashish@gmail.com", // list of receivers
@@ -37,5 +20,11 @@ module.exports = function (environment, callback) {
         // SO ON..
         callback(ERROR_MESSAGE, SUCCESS_MESSAGE)
     }
+
+    var task = [Test];
+    async.series(task, function (err, result) {
+        console.log('Booting process completed.');
+        callback(err, result);
+    });
 };
 

@@ -19,6 +19,7 @@
   "dependencies": {
     "async": "^2.0.1",
     "boom": "^4.1.0",
+    "dotenv": "^2.0.0",
     "gmail-node": "^1.0.0",
     "good": "^7.0.2",
     "good-console": "^6.1.2",

@@ -1,5 +1,8 @@
 'use strict';
 
+require('dotenv').config();
+require('./libraries/validateEnv')();
+
 // Variables
 var Hapi = require('hapi');
 var fs = require('fs');
@@ -8,7 +11,6 @@ var Vision = require('vision');
 var async = require('async');
 var HapiSwagger = require('hapi-swagger');
 var Pack = require('./package');
-var appConfig = require('./config/Config.json');
 var mongoose = require('mongoose');
 var pluginList = [];
 var path = require('path');
@@ -16,14 +18,8 @@ var EventEmitter = require("events").EventEmitter;
 var gmailNode = require('gmail-node');
 var serverTasks = [];
 
-// Constant variables
-const _ENV_NAME = process.env.NAME || 'development';
-var _APP_CONFIG = appConfig[_ENV_NAME];
-const _PORT = process.env.PORT || _APP_CONFIG.server.port;
-
 // Global Variables
 global._APP_DIR = __dirname;
-global._APP_CONFIG = _APP_CONFIG;
 global.Model = {};
 global.GlobalEvent = {};
 global.gmail = {};
@@ -31,9 +27,9 @@ global.gmail = {};
 // Create a server with a host and port
 var server = new Hapi.Server();
 server.connection({
-    port: _PORT,
+    port: +process.env.PORT,
     routes: {
-        cors: _APP_CONFIG.server.allowCrossDomain
+        cors: process.env.ALLOW_CROSS_DOMAIN === 'true' ? true : false
     }
 });
 
@@ -43,12 +39,12 @@ serverTasks.push((callback)=> {
     // Connect Methods
     let db = mongoose.connection;
     let daoStructureProcessed = false;
-    let connectMongodb = (delay, callback)=>{
-        var dbInterval = setTimeout(()=>{
-            mongoose.connect(_APP_CONFIG.database.url, {
+    let connectMongodb = (delay, callback)=> {
+        var dbInterval = setTimeout(()=> {
+            mongoose.connect(process.env.MONGODB_URL, {
                 server: {
-                    poolSize: _APP_CONFIG.database.poolSize,
-                    auto_reconnect: _APP_CONFIG.database.auto_reconnect
+                    poolSize: process.env.MONGODB_POOL_SIZE,
+                    auto_reconnect: true
                 }
             }, (err)=> {
                 if (err) {
@@ -62,17 +58,17 @@ serverTasks.push((callback)=> {
     };
 
     // Database Events
-    db.on('connecting', function() {
+    db.on('connecting', function () {
         console.log('Trying to connect mongoDB server...');
     });
-    db.on('error', function(error) {
+    db.on('error', function (error) {
         console.error('Error In MongoDB Connection: ' + error);
         mongoose.disconnect();
     });
-    db.on('connected', function() {
+    db.on('connected', function () {
         console.log('MongoDB Connected Successfully.');
         var schemaDirPath = path.join(global._APP_DIR, 'dao', 'schema');
-        if(!daoStructureProcessed){
+        if (!daoStructureProcessed) {
             fs.readdir(schemaDirPath, (error, fileList)=> {
                 fileList.forEach((fileName)=> {
                     var modelName = fileName.replace(/.js/, '');
@@ -90,15 +86,15 @@ serverTasks.push((callback)=> {
     db.on('reconnected', function () {
         console.log('MongoDB Reconnected.');
     });
-    db.on('disconnected', function() {
+    db.on('disconnected', function () {
         console.log('MongoDB Disconnected!');
-        connectMongodb(_APP_CONFIG.database.reconnectDelay, (err, message)=>{
+        connectMongodb(process.env.MONGODB_RECONNECT_DELAY, (err, message)=> {
             console.log(err || message);
         });
     });
 
     // If the Node process ends, close the Mongoose connection
-    process.on('SIGINT', function() {
+    process.on('SIGINT', function () {
         mongoose.connection.close(function () {
             console.log('Mongoose default connection disconnected through app termination');
             process.exit(0);
@@ -193,7 +189,7 @@ serverTasks.push((callback)=> {
                 throw err;
             } else {
                 server.auth.strategy('jwt', 'jwt', {
-                    key: _APP_CONFIG.jwt.key,          // Never Share your secret key
+                    key: process.env.JWT_KEY,          // Never Share your secret key
                     validateFunc: (decoded, request, callback) => {
                         // do your checks to see if the person is valid
                         if (!decoded.email) {
@@ -230,8 +226,22 @@ serverTasks.push((callback)=> {
 
 // Gmail Node Configuration
 serverTasks.push((callback)=> {
+    let gmailConfig = {
+        "installed": {
+            "client_id": process.env.GMAIL_CLIENT_ID,
+            "project_id": process.env.GMAIL_PROJECT_ID,
+            "auth_uri": process.env.GMAIL_AUTH_URL,
+            "token_uri": process.env.GMAIL_TOKEN_URL,
+            "auth_provider_x509_cert_url": process.env.GMAIL_AUTH_PROVIDER_X509_CERT_URL,
+            "client_secret": process.env.GMAIL_CLIENT_SECRET,
+            "redirect_uris": [
+                process.env.GMAIL_REDIRECT_URIS_INDEX1,
+                process.env.GMAIL_REDIRECT_URIS_INDEX2
+            ]
+        }
+    };
     global.gmail = gmailNode;
-    gmailNode.init(_APP_CONFIG.mail.gmail, './token.json', callback);
+    gmailNode.init(gmailConfig, './token.json', callback);
 });
 
 // Route Configuration
@@ -309,7 +319,7 @@ serverTasks.push((callback)=> {
 //Running Bootstrap Task
 serverTasks.push(function (callback) {
     var bootstrap = require('./config/Bootstrap');
-    bootstrap(_ENV_NAME, callback);
+    bootstrap(process.env.ENV_NAME, callback);
 });
 
 // Start the server
