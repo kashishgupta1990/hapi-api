@@ -2,7 +2,7 @@
 
 var async = require('async');
 
-module.exports = function (environment, callback) {
+module.exports = function (callback) {
 
     // Tasks
     function Test(callback) {

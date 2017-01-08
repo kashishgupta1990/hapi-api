@@ -26,7 +26,7 @@ module.exports = exports = (callback)=>{
 
     // Database Events
     db.on('connecting', function () {
-        console.log('Trying to connect mongoDB server...');
+        console.log('Trying to connect mongoDB server.');
     });
     db.on('error', function (error) {
         console.error('Error In MongoDB Connection: ' + error);

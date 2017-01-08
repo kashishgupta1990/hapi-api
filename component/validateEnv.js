@@ -2,6 +2,7 @@ module.exports = exports = ()=> {
     var envRequiredVariables = [
         "ENV_NAME",
         "PORT",
+        "PWD",
         "ALLOW_CROSS_DOMAIN",
         "MONGODB_URL",
         "MONGODB_POOL_SIZE",

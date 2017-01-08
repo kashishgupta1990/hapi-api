@@ -1,3 +1,4 @@
+# Warning: Readme is outdated, will work to make this uptodate.
 # Table of Contents #
 
 - [Hapi Api Boilerplate](#Hapi-Api-Boilerplate)
