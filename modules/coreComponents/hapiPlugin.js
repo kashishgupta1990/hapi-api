@@ -1,7 +1,7 @@
 var HapiSwagger = require('hapi-swagger');
 var Inert = require('inert');
 var Vision = require('vision');
-var Pack = require('../package.json');
+var Pack = requireFile('package.json');
 var async = require('async');
 var path = require('path');
 

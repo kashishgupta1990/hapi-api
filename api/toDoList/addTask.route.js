@@ -3,7 +3,7 @@
 var Joi = require('joi');
 var path = require('path');
 var dao = {
-    toDoList: require(path.join(global._APP_DIR, 'dao', 'modules', 'ToDoList'))
+    toDoList: requireFile('dao/modules/ToDoList')
 };
 
 //Routs Lists

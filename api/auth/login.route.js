@@ -4,7 +4,7 @@ var Joi = require('joi');
 var path = require('path');
 var JWT   = require('jsonwebtoken');
 var dao = {
-    user:require(path.join(global._APP_DIR,'dao','modules','User'))
+    user: requireFile('dao/modules/User')
 };
 
 //Routs Lists

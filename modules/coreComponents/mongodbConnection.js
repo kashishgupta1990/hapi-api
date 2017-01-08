@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var path = require('path');
 var fs = require('fs');
 
-module.exports = exports = (callback)=>{
+module.exports = exports = (callback)=> {
     // Connect Methods
     let db = mongoose.connection;
     let daoStructureProcessed = false;
@@ -34,7 +34,8 @@ module.exports = exports = (callback)=>{
     });
     db.on('connected', function () {
         console.log('MongoDB Connected Successfully.');
-        var schemaDirPath = path.join(global._APP_DIR, 'dao', 'schema');
+        let schemaDirPath = path.join(process.env.PWD, 'dao', 'schema');
+        let modules = {};
         if (!daoStructureProcessed) {
             fs.readdir(schemaDirPath, (error, fileList)=> {
                 fileList.forEach((fileName)=> {
@@ -44,8 +45,14 @@ module.exports = exports = (callback)=>{
                     schemaObject.modelMethods.forEach((modelMethods)=> {
                         schema.methods[modelMethods.name] = modelMethods.action;
                     });
-                    global.Model[modelName] = mongoose.model(modelName, schema);
+                    Object.defineProperty(modules, modelName, {
+                        enumerable: false,
+                        configurable: false,
+                        writable: false,
+                        value: mongoose.model(modelName, schema)
+                    });
                 });
+                globalSet('Model', modules);
                 daoStructureProcessed = true;
             });
         }

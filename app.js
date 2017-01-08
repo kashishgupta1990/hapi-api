@@ -2,7 +2,8 @@
 
 // Setup Node Env
 require('dotenv').config();
-require('./component/validateEnv')();
+require('./modules/coreComponents/validateEnv')();
+require('./modules/coreComponents/globalMethod')();
 
 // Variables
 var Hapi = require('hapi');
@@ -12,12 +13,6 @@ var path = require('path');
 var EventEmitter = require("events").EventEmitter;
 var gmailNode = require('gmail-node');
 var serverTasks = [];
-
-// Global Variables
-global._APP_DIR = __dirname;
-global.Model = {};
-global.GlobalEvent = {};
-global.gmail = {};
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -30,12 +25,12 @@ server.connection({
 
 // MongoDB Connection
 serverTasks.push((callback)=> {
-    require('./component/mongodbConnection')(callback);
+    require('./modules/coreComponents/mongodbConnection')(callback);
 });
 
 // Plugin Registration Operations
 serverTasks.push((callback)=> {
-    require('./component/hapiPlugin')(server, callback);
+    require('./modules/coreComponents/hapiPlugin')(server, callback);
 });
 
 // Gmail Node Configuration
@@ -54,7 +49,7 @@ serverTasks.push((callback)=> {
             ]
         }
     };
-    global.gmail = gmailNode;
+    appSet('gmail', gmailNode);
     gmailNode.init(gmailConfig, './token.json', callback);
 });
 
@@ -80,13 +75,11 @@ serverTasks.push((callback)=> {
 // Global Module Event Register
 serverTasks.push((callback)=> {
     var _globalEvent = new EventEmitter();
-
     function createEmitterEvent(eventList) {
         eventList.forEach(function (event) {
             _globalEvent.on(event.eventName, event.handler);
         });
     }
-
     function applyEmitterBind(dirPath) {
         var dirName = dirPath;
         var data = fs.readdirSync(dirName);
@@ -99,17 +92,14 @@ serverTasks.push((callback)=> {
             }
         });
     }
-
-    applyEmitterBind(_APP_DIR + '/globalEvent');
-
-    global.GlobalEvent = _globalEvent;
-
+    applyEmitterBind(process.env.PWD + '/globalEvent');
+    globalSet('GlobalEvent', _globalEvent);
     callback(null, 'Global Event Binding Complete');
 });
 
 //Running Bootstrap Task
 serverTasks.push(function (callback) {
-    require('./component/bootstrap')(callback);
+    require('./modules/coreComponents/bootstrap')(callback);
 });
 
 // Start the server
