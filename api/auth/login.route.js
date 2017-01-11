@@ -50,7 +50,8 @@ module.exports = [
                     }else{
                         if(data){
                             let userData = {
-                                email:data.email
+                                email:data.email,
+                                role: 'admin'
                             };
                             let token = JWT.sign(userData, process.env.JWT_KEY);
 

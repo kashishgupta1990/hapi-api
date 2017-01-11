@@ -16,6 +16,9 @@ module.exports = [
             notes: 'Show ToDo Task',
             tags: ['api'],
             auth: 'jwt',
+            plugins :{
+                'hapiRoleManager':['admin']
+            },
             validate: {
                 headers: Joi.object({
                     'authorization': Joi.string().required()

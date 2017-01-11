@@ -65,15 +65,23 @@ module.exports = exports = (server, callback)=> {
     pluginList.push((callback)=> {
         var goodOptions = {
             ops: {
-                interval: 1000
+                interval: 30 * 1000
             },
             reporters: {
                 console: [{
                     module: 'good-squeeze',
                     name: 'Squeeze',
-                    args: [{log: '*', response: '*'}]
+                    args: [{log: '*', response: '*', ops: '*'}]
                 }, {
-                    module: 'good-console'
+                    module: 'good-console',
+                    args: [{
+                        format:'DD/MM/YYYY, h:mm:ss a',
+                        utc: false,
+                        color: true
+                    },{
+                        log: '*',
+                        response: '*'
+                    }]
                 }, 'stdout'],
                 file: [{
                     module: 'good-squeeze',
@@ -140,6 +148,24 @@ module.exports = exports = (server, callback)=> {
             }
         });
     });
+
+    // Hapi Role Manager
+    pluginList.push((callback)=> {
+        var options = {
+            roles: ['admin','guest']
+        };
+        server.register({
+            register: requireFile('modules/customPlugin/hapiRoleManager'),
+            options: options
+        }, function (err) {
+            if (err) {
+                throw err;
+            }
+            var msg = 'Hapi Roles Plugin loaded';
+            callback(err, msg);
+        });
+    });
+
 
     // Plugin Applied
     async.parallel(pluginList, (err, result)=> {
