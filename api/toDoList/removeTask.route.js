@@ -35,13 +35,13 @@ module.exports = [
                             status: false,
                             message: 'Failed to add your task.',
                             data: err
-                        }).header("Authorization", request.headers.authorization);
+                        });
                     } else {
                         reply({
                             status: true,
                             message: 'Task successfully removed.',
                             data: data
-                        }).header("Authorization", request.headers.authorization);
+                        });
                     }
                 });
             }

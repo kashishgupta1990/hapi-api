@@ -18,16 +18,14 @@ module.exports = [
                 }).unknown()
             },
             handler: function (request, reply) {
-
                 // Todo clear from server
-
+                request.headers.authorization = '';
                 //To Authenticate User
                 reply({
                     status:true,
                     message:'logout successfully',
                     data:{}
-                }).header("Authorization", "logoutSuccessfully");
-
+                });
             }
         }
     }

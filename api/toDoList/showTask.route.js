@@ -34,13 +34,13 @@ module.exports = [
                             status: false,
                             message: 'Failed to show all task.',
                             data: err
-                        }).header("Authorization", request.headers.authorization);
+                        });
                     } else {
                         reply({
                             status: true,
                             message: 'Task successfully fetched.',
                             data: data
-                        }).header("Authorization", request.headers.authorization);
+                        });
                     }
                 });
             }

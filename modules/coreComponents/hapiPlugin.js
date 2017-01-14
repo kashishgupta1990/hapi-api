@@ -166,6 +166,20 @@ module.exports = exports = (server, callback)=> {
         });
     });
 
+    // Hapi Interceptor (Request/Response)
+    pluginList.push((callback)=> {
+        server.register({
+            register: requireFile('modules/customPlugin/hapiInterceptor'),
+            options: {}
+        }, function (err) {
+            if (err) {
+                throw err;
+            }
+            var msg = 'Hapi Interceptor Plugin loaded';
+            callback(err, msg);
+        });
+    });
+
     // Plugin Applied
     async.parallel(pluginList, (err, result)=> {
         if (err) {

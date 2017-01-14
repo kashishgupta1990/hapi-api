@@ -1,0 +1,9 @@
+{
+  "name": "hapiInterceptor",
+  "description": "Hapi request interceptor plugin",
+  "version": "0.0.0",
+  "main": "index",
+  "peerDependencies": {
+    "hapi": "^16.1.0"
+  }
+}
