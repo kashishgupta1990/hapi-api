@@ -5,7 +5,7 @@ var fs = require('fs');
 module.exports = exports = (callback)=> {
     // Connect Methods
     let db = mongoose.connection;
-    let daoStructureProcessed = false;
+    let dbStructureProcessed = false;
     let connectMongodb = (delay, callback)=> {
         var dbInterval = setTimeout(()=> {
             mongoose.connect(process.env.MONGODB_URL, {
@@ -34,9 +34,9 @@ module.exports = exports = (callback)=> {
     });
     db.on('connected', function () {
         console.log('MongoDB Connected Successfully.');
-        let schemaDirPath = path.join(process.env.PWD, 'dao', 'schema');
+        let schemaDirPath = path.join(process.env.PWD, 'db', 'schema');
         let modules = {};
-        if (!daoStructureProcessed) {
+        if (!dbStructureProcessed) {
             fs.readdir(schemaDirPath, (error, fileList)=> {
                 fileList.forEach((fileName)=> {
                     var modelName = fileName.replace(/.js/, '');
@@ -53,7 +53,7 @@ module.exports = exports = (callback)=> {
                     });
                 });
                 globalSet('Model', modules);
-                daoStructureProcessed = true;
+                dbStructureProcessed = true;
             });
         }
     });

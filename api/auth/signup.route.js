@@ -2,8 +2,8 @@
 
 var Joi = require('joi');
 var path = require('path');
-var dao = {
-    user: requireFile('dao/modules/User')
+var db = {
+    user: requireFile('db/modules/User')
 };
 
 //Routs Lists
@@ -32,7 +32,7 @@ module.exports = [
                     email: request.payload.email,
                     password: request.payload.password
                 };
-                dao.user.signUpUser(dbPayload,(err,data)=>{
+                db.user.signUpUser(dbPayload,(err,data)=>{
                     if(err){
                         reply(err);
                     }else{

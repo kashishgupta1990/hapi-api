@@ -3,8 +3,8 @@
 var Joi = require('joi');
 var path = require('path');
 var JWT   = require('jsonwebtoken');
-var dao = {
-    user: requireFile('dao/modules/User')
+var db = {
+    user: requireFile('db/modules/User')
 };
 
 //Routs Lists
@@ -44,7 +44,7 @@ module.exports = [
                     email: request.payload.email,
                     password: request.payload.password
                 };
-                dao.user.validateUser(dbPayload, (err, data)=>{
+                db.user.validateUser(dbPayload, (err, data)=>{
                     if(err){
                         reply(err);
                     }else{

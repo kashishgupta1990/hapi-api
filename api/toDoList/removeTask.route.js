@@ -2,8 +2,8 @@
 
 var Joi = require('joi');
 var path = require('path');
-var dao = {
-    toDoList: requireFile('dao/modules/ToDoList')
+var db = {
+    toDoList: requireFile('db/modules/ToDoList')
 };
 
 //Routs Lists
@@ -29,7 +29,7 @@ module.exports = [
                     email: request.auth.credentials.email,
                     taskId: request.params.taskId
                 };
-                dao.toDoList.remove(requiredData, (err, data)=> {
+                db.toDoList.remove(requiredData, (err, data)=> {
                     if (err) {
                         reply({
                             status: false,
