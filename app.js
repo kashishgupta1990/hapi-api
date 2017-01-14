@@ -10,7 +10,6 @@ var Hapi = require('hapi');
 var fs = require('fs');
 var async = require('async');
 var path = require('path');
-var EventEmitter = require("events").EventEmitter;
 var gmailNode = require('gmail-node');
 var serverTasks = [];
 
@@ -74,27 +73,7 @@ serverTasks.push((callback)=> {
 
 // Global Module Event Register
 serverTasks.push((callback)=> {
-    var _globalEvent = new EventEmitter();
-    function createEmitterEvent(eventList) {
-        eventList.forEach(function (event) {
-            _globalEvent.on(event.eventName, event.handler);
-        });
-    }
-    function applyEmitterBind(dirPath) {
-        var dirName = dirPath;
-        var data = fs.readdirSync(dirName);
-        data.forEach(function (dta) {
-            var path = dirName + '/' + dta;
-            if (fs.lstatSync(path).isDirectory()) {
-                applyEmitterBind(path);
-            } else {
-                createEmitterEvent(require(path));
-            }
-        });
-    }
-    applyEmitterBind(process.env.PWD + '/globalEvent');
-    globalSet('GlobalEvent', _globalEvent);
-    callback(null, 'Global Event Binding Complete');
+    require('./modules/coreComponents/globalEventRegister')(callback);
 });
 
 //Running Bootstrap Task

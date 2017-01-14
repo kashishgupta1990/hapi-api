@@ -65,7 +65,7 @@ module.exports = exports = (server, callback)=> {
     pluginList.push((callback)=> {
         var goodOptions = {
             ops: {
-                interval: 30 * 1000
+                interval: 60 * 1000
             },
             reporters: {
                 console: [{
@@ -76,7 +76,7 @@ module.exports = exports = (server, callback)=> {
                     module: 'good-console',
                     args: [{
                         format:'DD/MM/YYYY, h:mm:ss a',
-                        utc: false,
+                        utc: true,
                         color: true
                     },{
                         log: '*',
@@ -165,7 +165,6 @@ module.exports = exports = (server, callback)=> {
             callback(err, msg);
         });
     });
-
 
     // Plugin Applied
     async.parallel(pluginList, (err, result)=> {
