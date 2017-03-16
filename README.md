@@ -115,8 +115,8 @@ sh reset.sh
     - So on..
   - app.js (main file of the project)
   
-##Setting up configuration (Folder: modules/coreComponents/bootstrap.js)##
-###Bootstrap.js###
+## Setting up configuration (Folder: modules/coreComponents/bootstrap.js)##
+### Bootstrap.js###
 
 ``Bootstrap.js`` is a task runner file which executes on start of application according to appropriate environment settings.
 See below given snippet for quick start to create task named ``Test`` and run on ``development`` environment
