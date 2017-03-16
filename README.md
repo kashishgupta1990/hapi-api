@@ -1,4 +1,3 @@
-# Warning: Readme is outdated, will work to make this uptodate.
 # Table of Contents #
 
 - [Hapi Api Boilerplate](#Hapi-Api-Boilerplate)
@@ -30,7 +29,7 @@ It's by default gives you the `ToDoApplication` API's. It will help you to under
 
 
 ## When run this boilerplate first time, it will ask for auth key of GMail notification integration and send you email on application start. Update the `Bootstrap.js` `Test` Task.
-### How to create gmail secret key and update the `/config/Config.json` gmail object credentials  
+### How to create gmail secret key and update the `.env file` gmail object credentials  
 - Open link https://console.developers.google.com/flows/enableapi?apiid=gmail
 - Use this wizard to create or select a project in the Google Developers Console and automatically turn on the API. 
 - Click Continue, then Go to credentials.
@@ -80,35 +79,43 @@ sh reset.sh
     - CreateFolder(auth)
       - FileName.route.js (login.route.js)
       - FileName.service.js (login.service.js)
+      - FileName.spec.js (login.spec.js)
       - CreateFolder (You can make sub-nesting folder..)
           - FileName.route.js (So on ..)
           - FileName.service.js (So on ..)
+          - FileName.spec.js (So on ..)
     - CreateFolder (So on ..)
       - FileName.route.js (So on ..)
       - FileName.service.js (So on ..)
-  - config
-    - Bootstrap.js
-    - Config.json
-  - dao
+      - FileName.spec.js (So on ..)
+  - modules (It broadly contains the custom modules)
+    - coreComponents (It has all the main functionality of the core architecture)
+      - bootstrap.js (When application gets up the task present inside get executed.)
+      - globalEventRegister.js (Add the events which need to access from anywhere from the codebase.)
+      - globalMethod.js (We can add application level global methods which can be used directly eg. requireFile("FileName"))
+      - hapiPlugin.js (Add hapi plugins here.)
+      - validateEnv.js (Use this file to add environment variable validation.)
+    - customPlugin (Add hapi custom plugin here)
+    - globalEvent (Add global events here)
+      - email.js
+      - notification.js (It is just a sample file. Showing the file structure and usage.)
+      - So on...
+  - db
     - modules
       - ToDoList.js (It is `M` from `MVC` framework. Containing the ToDoApp model.)
       - User.js (It contain the User model which interact with mongodb.)
     - schema 
       - User.js (Containing ToDoApplication User Schema)
       - Sample.js (Its is just a sample file. Showing the file structure and usage.)
-  - globalEvent
-    - email.js
-    - notification.js (It is just a sample file. Showing the file structure and usage.)
-    - So on...
   - node_modules 
     - contains all the dependency ...
-  - public (Contain all public folder)
+  - client (Contain all public folder)
     - index.html 
     - css
     - So on..
   - app.js (main file of the project)
   
-##Setting up configuration (Folder: config)##
+##Setting up configuration (Folder: modules/coreComponents/bootstrap.js)##
 ###Bootstrap.js###
 
 ``Bootstrap.js`` is a task runner file which executes on start of application according to appropriate environment settings.
@@ -130,64 +137,44 @@ module.exports = function (environment, callback) {
 };
 ```
 
-### Config.json ###
+### Use `.env` to add configuration refer: `sample.env` file. ###
 
-`Config.json` contains all the application level configuration variables. Use config.json file by `_config` as global variable.
+It contains all the application level configuration variables. Use .env file by `process.env.{your-variable-name}` as global variable.
 
-```javascript
+```
+#Server Variables
+ENV_NAME=DEVELOPMENT
+PORT=9999
+ALLOW_CROSS_DOMAIN=true
+JWT_KEY=NeverShareYourSecretNeverShareYourSecret
 
-  "development": {
-    "server": {
-      "host": "localhost",
-      "port": "9999",
-      "allowCrossDomain": true
-    },
-    "database": {
-      "required": false,
-      "url": "mongodb://localhost:27017/boilerplate",
-      "poolSize": 2,
-      "tryToConnect": true
-    },
-    "cookie": {
-      "password": "enter-your-32-char-secret-key",
-      "cookie": "hapi-api-dev",
-      "redirectTo": "/login",
-      "isSecure": false
-    },
-    "jwt":{
-          "key":"NeverShareYourSecretNeverShareYourSecret"
-    },
-    "mail":{
-      "gmail":{
-           "installed": {
-                "client_id": "k677725446467-6li25pcqgkcllsoh6f6dijcvse64n9pf.apps.googleusercontent.com",
-                "project_id": "clean-node-119606",
-                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https://accounts.google.com/o/oauth2/token",
-                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                "client_secret": "kF7DvoA_ZrNfa65GnU2zQBgw7",
-                "redirect_uris": [
-                  "urn:ietf:wg:oauth:2.0:oob",
-                  "http://localhost"
-                ]
-           }
-       }
-    }
-  }
-  
+#Mongodb Variables
+MONGODB_URL=mongodb://localhost:27017/boilerplate
+MONGODB_POOL_SIZE=2
+MONGODB_RECONNECT_DELAY=10000
+
+#GMail Variables
+GMAIL_CLIENT_ID=677725446467-6li25pcqgkcllsoh6f6dijcvse64n9pf.apps.googleusercontent.com
+GMAIL_PROJECT_ID=clean-node-119606
+GMAIL_AUTH_URL=https://accounts.google.com/o/oauth2/auth
+GMAIL_TOKEN_URL=https://accounts.google.com/o/oauth2/token
+GMAIL_AUTH_PROVIDER_X509_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
+GMAIL_CLIENT_SECRET=F7DvoA_ZrNfa65GnU2zQBgw7
+GMAIL_REDIRECT_URIS_INDEX1=urn:ietf:wg:oauth:2.0:oob
+GMAIL_REDIRECT_URIS_INDEX2=http://localhost  
 ```
 
-## DAO (Data Access Object) Schema and its Module ##
+## `db` Database Schema and its Module ##
 
 ### Schema ###
 
-``dao/schema`` is a home for all mongoose domain. You just have to create file like ``User.js``, define mongoose schema into file, that's all.
+``db/schema`` is a home for all mongoose domain. You just have to create file like ``User.js``, define mongoose schema into file, that's all.
 You can access your mongoose modal form any where in boilerplate (routes, bootstarp files) by ``Modal`` object.
 Examples are given below:
 
 #### Define Sample Domain####
 
-``Define Sample Domain`` in /dao/schema/Sample.js
+``Define Sample Domain`` in /db/schema/Sample.js
 ```javascript
 "use strict";
 
@@ -221,7 +208,7 @@ module.exports = sample;
 ```
 #### Sample Modules####
 
-Use ``Define Sample Module`` in /dao/modules/sample.js
+Use ``Define Sample Module`` in /db/modules/sample.js
 ```javascript
 'use strict';
 
