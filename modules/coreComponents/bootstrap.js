@@ -21,7 +21,7 @@ module.exports = function (callback) {
         callback(ERROR_MESSAGE, SUCCESS_MESSAGE)
     }
 
-    var task = [Test];
+    var task = [];
     async.series(task, function (err, result) {
         console.log('Booting process completed.');
         callback(err, result);

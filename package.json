@@ -1,7 +1,7 @@
 {
   "name": "hapiapi",
-  "version": "2.0.0",
-  "description": "",
+  "version": "2.0.1",
+  "description": "This Boilerplate is ready to use pack having very exciting feature of HapiJs and MongooseJs. This Boilerplate having some of common plugin which can be used as per required.This Boilerplate will give you a quick start to your Node Application Server with HapiJs.We are Hapi to release this exciting version to build your Node app on Hapi-Api-Boilerplate.It's by default gives you the `ToDoApplication` API's.",
   "scripts": {
     "start": "node app.js",
     "test": "jasmine-node api --verbose"
@@ -27,9 +27,11 @@
     "good-file": "^6.0.1",
     "good-http": "^6.1.1",
     "good-squeeze": "^5.0.1",
+    "handlebars": "^4.0.6",
     "hapi": "^16.1.0",
     "hapi-auth-jwt2": "^7.2.4",
     "hapi-swagger": "^7.5.0",
+    "hoek": "^4.1.0",
     "inert": "^4.1.0",
     "joi": "^10.1.0",
     "jsonwebtoken": "^7.2.1",

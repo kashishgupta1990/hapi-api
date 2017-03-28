@@ -4,6 +4,7 @@ var Vision = require('vision');
 var Pack = requireFile('package.json');
 var async = require('async');
 var path = require('path');
+var Hoek = require('hoek');
 
 module.exports = exports = (server, callback)=> {
     // Swagger Plugin
@@ -31,6 +32,25 @@ module.exports = exports = (server, callback)=> {
             }
         });
         callback(null, 'Static Directory Configured');
+    });
+
+    // Handlebars plugin
+    pluginList.push((callback)=> {
+        server.register(require('vision'), (err) => {
+            Hoek.assert(!err, err);
+            server.views({
+                engines: {
+                    html: require('handlebars')
+                },
+                relativeTo: process.env.PWD,
+                path: './serverTemplates',
+                layoutPath: './serverTemplates/layout',
+                layout: 'default',
+                partialsPath: './serverTemplates/partials',
+                helpersPath: './serverTemplates/helpers'
+            });
+        });
+        callback(null, 'Init handlebars template engine');
     });
 
     // Swagger

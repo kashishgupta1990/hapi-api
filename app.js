@@ -68,6 +68,7 @@ serverTasks.push((callback)=> {
     }
 
     applyRouteConfig(__dirname + '/api');
+    applyRouteConfig(__dirname + '/serverTemplates');
     callback(null, 'Routes config successsfully');
 });
 
